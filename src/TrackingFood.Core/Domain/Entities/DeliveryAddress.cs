@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace TrackingFood.Core.Domain.Entities
 {
-    public class DeliveryAddress
+    public sealed class DeliveryAddress : Entity
     {
         public int IdDeliveryAddress { get; set; }
-        public int Address { get; set; }
+        public string Address { get; set; }
         public string FullNumber { get; set; }
         public int IdCustomer { get; set; }
-        public virtual Customer Customer { get; set; }
+        public Customer Customer { get; set; }
+        public IEnumerable<Queue> Queues { get; set; }
     }
 }

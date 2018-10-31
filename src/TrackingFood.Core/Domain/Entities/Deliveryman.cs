@@ -1,8 +1,11 @@
-﻿namespace TrackingFood.Core.Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace TrackingFood.Core.Domain.Entities
 {
-    public class Deliveryman
+    public sealed class Deliveryman : Entity
     {
         public int IdDeliveryman { get; set; }
         public string Name { get; set; }
+        public IEnumerable<Queue> Queues { get; set; }
     }
 }

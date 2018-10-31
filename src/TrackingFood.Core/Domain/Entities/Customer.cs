@@ -2,10 +2,10 @@
 
 namespace TrackingFood.Core.Domain.Entities
 {
-    public class Customer
+    public sealed class Customer : Entity
     {
         public int IdCustomer { get; set; }
         public int Name { get; set; }
-        public virtual IEnumerable<DeliveryAddress> Adresses { get; set; }
+        public IEnumerable<DeliveryAddress> Adresses { get; set; }
     }
 }

@@ -1,9 +1,10 @@
-﻿using TrackingFood.Core.Domain.Interfaces.Applications;
+﻿using TrackingFood.Core.Domain;
+using TrackingFood.Core.Domain.Interfaces.Applications;
 
 namespace TrackingFood.Core.Application
 {
-    public class BaseApplication : IBaseApplication
+    public class BaseApplication : DomainEvent, IBaseApplication
     {
-        
+
     }
 }

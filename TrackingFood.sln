@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingFood.Core", "src\TrackingFood.Core\TrackingFood.Core.csproj", "{556ACF7A-044B-4359-BF67-9D8D3AA5F249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingFood.Core", "src\TrackingFood.Core\TrackingFood.Core.csproj", "{556ACF7A-044B-4359-BF67-9D8D3AA5F249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingFood.Api", "TrackingFood.Api\TrackingFood.Api.csproj", "{52DA23F4-FB12-4879-A9B6-98329203D0CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{556ACF7A-044B-4359-BF67-9D8D3AA5F249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{556ACF7A-044B-4359-BF67-9D8D3AA5F249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{556ACF7A-044B-4359-BF67-9D8D3AA5F249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DA23F4-FB12-4879-A9B6-98329203D0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DA23F4-FB12-4879-A9B6-98329203D0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DA23F4-FB12-4879-A9B6-98329203D0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DA23F4-FB12-4879-A9B6-98329203D0CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
