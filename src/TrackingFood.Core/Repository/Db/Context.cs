@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.IO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Repository.Db.Maps;
-using System.IO;
-using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using TrackingFood.Core.Domain;
 
@@ -19,11 +18,6 @@ namespace TrackingFood.Core.Repository.Db
     //Update-Database LastGoodMigration
     public class Context : DbContext
     {
-        private readonly Appsettings _appsettings;
-        public Context(IOptions<Appsettings> appsettings)
-        {
-            _appsettings = appsettings.Value;
-        }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
         public DbSet<Deliveryman> Deliverymen { get; set; }
@@ -33,6 +27,8 @@ namespace TrackingFood.Core.Repository.Db
         public DbSet<Order> Orders { get; set; }
         public DbSet<QueueHistory> QueueHistories { get; set; }
         public DbSet<Queue> Queues { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyBranch> CompanyBranches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,12 +51,18 @@ namespace TrackingFood.Core.Repository.Db
             modelBuilder.ApplyConfiguration(new OrderMap());
             modelBuilder.ApplyConfiguration(new QueueHistoryMap());
             modelBuilder.ApplyConfiguration(new QueueMap());
+            modelBuilder.ApplyConfiguration(new CompanyMap());
+            modelBuilder.ApplyConfiguration(new CompanyBranchMap());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            IConfiguration appSetting = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
             // define the database to use
-            optionsBuilder.UseSqlServer(_appsettings.ConnectionStrings.DefaultConnection);
+            optionsBuilder.UseSqlServer(appSetting["AppSettings:ConnectionStrings:DefaultConnection"]);
         }
     }
 }

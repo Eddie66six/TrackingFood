@@ -12,5 +12,9 @@ namespace TrackingFood.Core.Domain.Entities
         public Deliveryman Deliveryman { get; set; }
         public DateTime RequestDate { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public int IdOrder { get; set; }
+        public Order Order { get; set; }
+        public int IdCompanyBranch { get; set; }
+        public CompanyBranch CompanyBranch { get; set; }
     }
 }
