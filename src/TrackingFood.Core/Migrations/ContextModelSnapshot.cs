@@ -57,7 +57,7 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
+                    b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("IdCustomer");
@@ -73,6 +73,8 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<string>("Address")
                         .HasMaxLength(200);
+
+                    b.Property<string>("City");
 
                     b.Property<string>("FullNumber")
                         .HasMaxLength(50);
@@ -107,6 +109,9 @@ namespace TrackingFood.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("IdCompanyBranch");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
 
                     b.HasKey("IdMenu");
 

@@ -28,7 +28,7 @@ namespace TrackingFood.Core.Domain
 
         public bool IsError()
         {
-            return _domainEventContainer.Any();
+            return _domainEventContainer?.Any() ?? false;
         }
     }
 

@@ -2,6 +2,18 @@
 {
     public sealed class OrderItem : Entity
     {
+        private OrderItem()
+        {
+            
+        }
+        public OrderItem( MenuItem menuItem)
+        {
+            Validate();
+        }
+        protected override void Validate()
+        {
+            throw new System.NotImplementedException();
+        }
         public int IdOrderItem { get; set; }
         public int IdMenuItem { get; set; }
         public MenuItem MenuItem { get; set; }

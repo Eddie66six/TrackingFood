@@ -8,6 +8,7 @@ using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Repository;
+using TrackingFood.Core.Repository.Db;
 
 namespace TrackingFood.Api
 {
@@ -26,6 +27,7 @@ namespace TrackingFood.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<Appsettings>(Configuration.GetSection("AppSettings"));
+            services.AddScoped<Context>();
             services.AddScoped<IDomainEvent, DomainEvent>();
 
             services.AddScoped<IBaseApplication, BaseApplication>();

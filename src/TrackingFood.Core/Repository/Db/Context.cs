@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Repository.Db.Maps;
-using Microsoft.Extensions.Options;
-using TrackingFood.Core.Domain;
 
 namespace TrackingFood.Core.Repository.Db
 {

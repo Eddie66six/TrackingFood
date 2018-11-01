@@ -4,6 +4,19 @@ namespace TrackingFood.Core.Domain.Entities
 {
     public sealed class MenuItem : Entity
     {
+        private MenuItem()
+        {
+            
+        }
+        public MenuItem(string name)
+        {
+            Validate();
+        }
+        protected override void Validate()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int IdMenuItens { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

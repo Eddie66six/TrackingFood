@@ -10,7 +10,7 @@ using TrackingFood.Core.Repository.Db;
 namespace TrackingFood.Core.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20181031010631_InitialCreate")]
+    [Migration("20181101040136_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,13 +21,45 @@ namespace TrackingFood.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Company", b =>
+                {
+                    b.Property<int>("IdCompany")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.HasKey("IdCompany");
+
+                    b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.CompanyBranch", b =>
+                {
+                    b.Property<int>("IdCompanyBranch")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdCompany");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.HasKey("IdCompanyBranch");
+
+                    b.HasIndex("IdCompany");
+
+                    b.ToTable("CompanyBranches");
+                });
+
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Customer", b =>
                 {
                     b.Property<int>("IdCustomer")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
+                    b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("IdCustomer");
@@ -43,6 +75,8 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<string>("Address")
                         .HasMaxLength(200);
+
+                    b.Property<string>("City");
 
                     b.Property<string>("FullNumber")
                         .HasMaxLength(50);
@@ -76,7 +110,11 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("IdCompanyBranch");
+
                     b.HasKey("IdMenu");
+
+                    b.HasIndex("IdCompanyBranch");
 
                     b.ToTable("Menus");
                 });
@@ -115,7 +153,11 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<decimal>("DeliveryValue");
 
+                    b.Property<int>("IdCompanyBranch");
+
                     b.HasKey("IdOrder");
+
+                    b.HasIndex("IdCompanyBranch");
 
                     b.ToTable("Orders");
                 });
@@ -149,17 +191,26 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("IdCompanyBranch");
+
                     b.Property<int>("IdDeliveryAddress");
 
                     b.Property<int>("IdDeliveryman");
+
+                    b.Property<int>("IdOrder");
 
                     b.Property<int>("Position");
 
                     b.HasKey("IdQueue");
 
+                    b.HasIndex("IdCompanyBranch");
+
                     b.HasIndex("IdDeliveryAddress");
 
                     b.HasIndex("IdDeliveryman");
+
+                    b.HasIndex("IdOrder")
+                        .IsUnique();
 
                     b.ToTable("Queues");
                 });
@@ -172,9 +223,13 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<DateTime>("DeliveryDate");
 
+                    b.Property<int>("IdCompanyBranch");
+
                     b.Property<int>("IdDeliveryAddress");
 
                     b.Property<int>("IdDeliveryman");
+
+                    b.Property<int>("IdOrder");
 
                     b.Property<int>("Position");
 
@@ -182,11 +237,24 @@ namespace TrackingFood.Core.Migrations
 
                     b.HasKey("IdQueueHistory");
 
+                    b.HasIndex("IdCompanyBranch");
+
                     b.HasIndex("IdDeliveryAddress");
 
                     b.HasIndex("IdDeliveryman");
 
+                    b.HasIndex("IdOrder")
+                        .IsUnique();
+
                     b.ToTable("QueueHistories");
+                });
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.CompanyBranch", b =>
+                {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Company", "Company")
+                        .WithMany("CompanyBranches")
+                        .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.DeliveryAddress", b =>
@@ -197,12 +265,28 @@ namespace TrackingFood.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CompanyBranch")
+                        .WithMany("Menus")
+                        .HasForeignKey("IdCompanyBranch")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.MenuItem", b =>
                 {
                     b.HasOne("TrackingFood.Core.Domain.Entities.Menu", "Menu")
                         .WithMany("MenuItems")
                         .HasForeignKey("IdMenu")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CompanyBranch")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdCompanyBranch")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.OrderItem", b =>
@@ -218,6 +302,11 @@ namespace TrackingFood.Core.Migrations
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Queue", b =>
                 {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CompanyBranch")
+                        .WithMany("Queues")
+                        .HasForeignKey("IdCompanyBranch")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("TrackingFood.Core.Domain.Entities.DeliveryAddress", "DeliveryAddress")
                         .WithMany("Queues")
                         .HasForeignKey("IdDeliveryAddress")
@@ -226,11 +315,21 @@ namespace TrackingFood.Core.Migrations
                     b.HasOne("TrackingFood.Core.Domain.Entities.Deliveryman", "Deliveryman")
                         .WithMany("Queues")
                         .HasForeignKey("IdDeliveryman")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Order", "Order")
+                        .WithOne("Queue")
+                        .HasForeignKey("TrackingFood.Core.Domain.Entities.Queue", "IdOrder")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.QueueHistory", b =>
                 {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CompanyBranch")
+                        .WithMany("QueueHistories")
+                        .HasForeignKey("IdCompanyBranch")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("TrackingFood.Core.Domain.Entities.DeliveryAddress", "DeliveryAddress")
                         .WithMany()
                         .HasForeignKey("IdDeliveryAddress")
@@ -239,6 +338,11 @@ namespace TrackingFood.Core.Migrations
                     b.HasOne("TrackingFood.Core.Domain.Entities.Deliveryman", "Deliveryman")
                         .WithMany()
                         .HasForeignKey("IdDeliveryman")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Order", "Order")
+                        .WithOne("QueueHistory")
+                        .HasForeignKey("TrackingFood.Core.Domain.Entities.QueueHistory", "IdOrder")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -2,8 +2,21 @@
 
 namespace TrackingFood.Core.Domain.Entities
 {
-    public sealed class CompanyBranch
+    public sealed class CompanyBranch : Entity
     {
+        private CompanyBranch()
+        {
+            
+        }
+
+        public CompanyBranch(string name)
+        {
+            Validate();
+        }
+        protected override void Validate()
+        {
+            throw new System.NotImplementedException();
+        }
         public int IdCompanyBranch { get; set; }
         public string Name { get; set; }
         public int IdCompany { get; set; }

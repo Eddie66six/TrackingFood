@@ -2,6 +2,18 @@
 {
     public sealed class Queue : Entity
     {
+        private Queue()
+        {
+            
+        }
+        public Queue(int position)
+        {
+            Validate();
+        }
+        protected override void Validate()
+        {
+            throw new System.NotImplementedException();
+        }
         public int IdQueue { get; set; }
         public int Position { get; set; }
         public int IdDeliveryAddress { get; set; }

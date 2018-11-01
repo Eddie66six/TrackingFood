@@ -9,6 +9,7 @@ namespace TrackingFood.Core.Repository.Db.Maps
         public void Configure(EntityTypeBuilder<Menu> builder)
         {
             builder.HasKey(p => p.IdMenu);
+            builder.Property(p => p.Name).HasMaxLength(100);
 
             builder.HasMany(p => p.MenuItems)
                 .WithOne(p => p.Menu);

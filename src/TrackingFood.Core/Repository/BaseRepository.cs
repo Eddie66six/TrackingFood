@@ -1,15 +1,21 @@
-﻿using Microsoft.Extensions.Options;
-using TrackingFood.Core.Domain;
-using TrackingFood.Core.Domain.Interfaces.Repositories;
+﻿using TrackingFood.Core.Domain.Interfaces.Repositories;
+using TrackingFood.Core.Repository.Db;
 
 namespace TrackingFood.Core.Repository
 {
-    public class BaseRepository : IBaseRepository
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected readonly Appsettings _appsettings;
-        public BaseRepository(IOptions<Appsettings> appsettings)
+        //IOptions<Appsettings> appsettings, 
+        protected readonly Context _context;
+        public BaseRepository(Context context)
         {
-            _appsettings = appsettings.Value;
+            _context = context;
+        }
+
+        public T Create(T entity)
+        {
+            _context.Set<T>().Add(entity);
+            return entity;
         }
     }
 }

@@ -3,9 +3,8 @@ using TrackingFood.Core.Domain.Entities;
 
 namespace TrackingFood.Core.Domain.Interfaces.Repositories
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IBaseRepository<Customer>
     {
-        void Create();
         Customer GetCustomers(int id);
     }
 }
