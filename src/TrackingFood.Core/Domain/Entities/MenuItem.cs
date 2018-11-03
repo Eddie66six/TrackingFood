@@ -8,12 +8,22 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-        public MenuItem(string name, string description, string urlImage, decimal value)
+        public MenuItem(string name, string description, string urlImage, decimal value, int idMenu)
         {
             Name = name;
             Description = description;
             UrlImage = urlImage;
             Value = value;
+            IdMenu = idMenu;
+            Validate();
+        }
+        public MenuItem(string name, string description, string urlImage, decimal value, Menu menu)
+        {
+            Name = name;
+            Description = description;
+            UrlImage = urlImage;
+            Value = value;
+            Menu = menu;
             Validate();
         }
         protected override void Validate()

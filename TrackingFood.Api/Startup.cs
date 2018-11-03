@@ -36,11 +36,15 @@ namespace TrackingFood.Api
             services.AddScoped<ICredencialApplication, CredencialApplication>();
             services.AddScoped<ICompanyApplication, CompanyApplication>();
             services.AddScoped<ICompanyBranchApplication, CompanyBranchApplication>();
+            services.AddScoped<IMenuApplication, MenuApplication>();
+            services.AddScoped<IMenuItemApplication, MenuItemApplication>();
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICredencialRepository, CredencialRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ICompanyBranchRepository, CompanyBranchRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

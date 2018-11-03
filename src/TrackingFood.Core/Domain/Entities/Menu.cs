@@ -8,9 +8,17 @@ namespace TrackingFood.Core.Domain.Entities
         {
             MenuItems = new List<MenuItem>();
         }
-        public Menu(string name)
+        public Menu(string name, int idCompanyBranch)
         {
             Name = name;
+            IdCompanyBranch = idCompanyBranch;
+            MenuItems = new List<MenuItem>();
+            Validate();
+        }
+        public Menu(string name, CompanyBranch companyBranch)
+        {
+            Name = name;
+            CompanyBranch = companyBranch;
             MenuItems = new List<MenuItem>();
             Validate();
         }
