@@ -2,6 +2,10 @@
 {
     public sealed class Credencial: Entity
     {
+        protected Credencial()
+        {
+            
+        }
         public Credencial(string email, string password)
         {
             Email = email;

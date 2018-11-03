@@ -18,7 +18,12 @@ namespace TrackingFood.Api.Controllers
         [HttpPost]
         public Task<ObjectResult> Create(CreateCustomerViewModel createCustomerViewModel)
         {
-            _customerApplication.Create(createCustomerViewModel);
+            return CreateResponse(_customerApplication.Create(createCustomerViewModel));
+        }
+        [HttpPut]
+        public Task<ObjectResult> Update(UpdateCustomerViewModel updateCustomerViewModel)
+        {
+            _customerApplication.Update(updateCustomerViewModel);
             return CreateResponse(null);
         }
     }

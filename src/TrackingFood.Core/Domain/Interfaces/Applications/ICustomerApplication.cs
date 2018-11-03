@@ -5,6 +5,7 @@ namespace TrackingFood.Core.Domain.Interfaces.Applications
 {
     public interface ICustomerApplication : IDisposable, IBaseApplication
     {
-        void Create(CreateCustomerViewModel customer);
+        int? Create(CreateCustomerViewModel customer);
+        void Update(UpdateCustomerViewModel customer);
     }
 }

@@ -1,22 +1,19 @@
 ﻿using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Interfaces.Applications;
-using TrackingFood.Core.Repository.Db;
 
 namespace TrackingFood.Core.Application
 {
     public class BaseApplication : DomainEvent, IBaseApplication
     {
-        private readonly Context _context;
-        public BaseApplication(Context context)
+        private readonly IUnitOfWork _unitOfWork;
+        public BaseApplication(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         protected bool Commit()
         {
-            if (IsError()) return false;
-            _context.SaveChanges();
-            return true;
+            return _unitOfWork.Commit();
         }
     }
 }

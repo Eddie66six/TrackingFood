@@ -21,7 +21,7 @@ namespace TrackingFood.Core.Domain.Entities
         public void Update(string name, string documentNumber)
         {
             Name = name;
-            DocumentNumber = documentNumber;
+            DocumentNumber = Regex.Replace(documentNumber ?? "", @"[^0-9]", "");
             Validate();
         }
 
