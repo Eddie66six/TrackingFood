@@ -1,6 +1,9 @@
-﻿using TrackingFood.Core.Domain.Entities;
+﻿using System.Data.SqlClient;
+using Dapper;
+using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Repository.Db;
+using Microsoft.EntityFrameworkCore;
 
 namespace TrackingFood.Core.Repository
 {
@@ -10,14 +13,50 @@ namespace TrackingFood.Core.Repository
         {
         }
 
-        public Customer GetCustomers(int id)
+        public Customer GetCustomer(int id)
         {
-            //using (var con = new SqlConnection(
-            //    _appsettings.ConnectionStrings.Dapper))
-            //{
-            //    return con.QueryFirstOrDefault<Customer>("select name from Customers where IdCustomer = @id", new { id });
-            //}
-            return null;
+            using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                return con.QueryFirstOrDefault<Customer>("select name from Customers where IdCustomer = @id", new { id });
+                //var sql = $"SELECT * from Customers c inner join DeliveryAddresses d on d.IdCustomer = c.IdCustomer where c.IdCustomer = {id}";
+                //var orderDictionary = new Dictionary<int, Customer>();
+
+                //one to many
+                //return con.Query<Customer, DeliveryAddress, Customer>(
+                //        sql,
+                //        (order, orderDetail) =>
+                //        {
+                //            if (!orderDictionary.TryGetValue(order.IdCustomer, out var customer))
+                //            {
+                //                customer = order;
+                //                customer.Adresses = new List<DeliveryAddress>();
+                //                orderDictionary.Add(customer.IdCustomer, customer);
+                //            }
+
+                //            customer.Adresses.Add(orderDetail);
+                //            return customer;
+                //        },
+                //        splitOn: "IdDeliveryAddress")
+                //    .FirstOrDefault();
+                //one to one
+                //var invoices = con.Query<Customer, List<DeliveryAddress>, Customer>(
+                //        sql,
+                //        (invoice, invoiceDetail) =>
+                //        {
+                //            invoice.Adresses = invoiceDetail;
+                //            return invoice;
+                //        },
+                //        splitOn: "IdDeliveryAddress")
+                //    .ToList();
+            }
+        }
+
+        public bool ExistEmail(string email)
+        {
+            using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                return con.QueryFirstOrDefault<bool>("select top 1 1 from Customers c inner join Credencials ce on ce.IdCredencial = c.IdCredencial where ce.Email = @email", new { email });
+            }
         }
     }
 }

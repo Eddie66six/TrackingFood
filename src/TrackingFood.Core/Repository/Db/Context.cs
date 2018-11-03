@@ -17,6 +17,7 @@ namespace TrackingFood.Core.Repository.Db
     public class Context : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Credencial> Credencials { get; set; }
         public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
         public DbSet<Deliveryman> Deliverymen { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
@@ -41,6 +42,7 @@ namespace TrackingFood.Core.Repository.Db
 
             ////geral
             modelBuilder.ApplyConfiguration(new CustomerMap());
+            modelBuilder.ApplyConfiguration(new CredencialMap());
             modelBuilder.ApplyConfiguration(new DeliveryAddressMap());
             modelBuilder.ApplyConfiguration(new DeliverymanMap());
             modelBuilder.ApplyConfiguration(new MenuItemMap());

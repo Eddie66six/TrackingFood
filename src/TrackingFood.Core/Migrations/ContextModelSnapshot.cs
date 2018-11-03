@@ -51,16 +51,40 @@ namespace TrackingFood.Core.Migrations
                     b.ToTable("CompanyBranches");
                 });
 
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Credencial", b =>
+                {
+                    b.Property<int>("IdCredencial")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(21);
+
+                    b.HasKey("IdCredencial");
+
+                    b.ToTable("Credencials");
+                });
+
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Customer", b =>
                 {
                     b.Property<int>("IdCustomer")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("DocumentNumber");
+
+                    b.Property<int>("IdCredencial");
+
                     b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("IdCustomer");
+
+                    b.HasIndex("IdCredencial")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -255,6 +279,14 @@ namespace TrackingFood.Core.Migrations
                     b.HasOne("TrackingFood.Core.Domain.Entities.Company", "Company")
                         .WithMany("CompanyBranches")
                         .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Credencial", "Credencial")
+                        .WithOne("Customer")
+                        .HasForeignKey("TrackingFood.Core.Domain.Entities.Customer", "IdCredencial")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -13,6 +13,8 @@ namespace TrackingFood.Core.Repository.Db.Maps
 
             builder.HasMany(p => p.Adresses)
                 .WithOne(p => p.Customer);
+
+            builder.HasOne(p => p.Credencial);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace TrackingFood.Core.Domain.Interfaces.Repositories
 {
     public interface ICustomerRepository : IBaseRepository<Customer>
     {
-        Customer GetCustomers(int id);
+        Customer GetCustomer(int id);
+        bool ExistEmail(string email);
     }
 }
