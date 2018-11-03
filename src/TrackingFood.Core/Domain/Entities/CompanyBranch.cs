@@ -8,14 +8,22 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-
-        public CompanyBranch(string name)
+        public CompanyBranch(string name, int idCompany)
         {
+            Name = name;
+            IdCompany = idCompany;
+            Validate();
+        }
+        public CompanyBranch(string name, Company company)
+        {
+            Name = name;
+            Company = company;
             Validate();
         }
         protected override void Validate()
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(Name) || (IdCompany <= 0 && Company == null))
+                AddError("Invalid Company branch");
         }
         public int IdCompanyBranch { get; set; }
         public string Name { get; set; }
@@ -25,5 +33,6 @@ namespace TrackingFood.Core.Domain.Entities
         public IEnumerable<Order> Orders { get; set; }
         public IEnumerable<Queue> Queues { get; set; }
         public IEnumerable<QueueHistory> QueueHistories { get; set; }
+        public IEnumerable<Employee> Employees { get; set; }
     }
 }

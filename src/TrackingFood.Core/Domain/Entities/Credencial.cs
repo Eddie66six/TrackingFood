@@ -1,10 +1,10 @@
 ﻿namespace TrackingFood.Core.Domain.Entities
 {
-    public sealed class Credencial: Entity
+    public sealed class Credencial : Entity
     {
-        protected Credencial()
+        private Credencial()
         {
-            
+
         }
         public Credencial(string email, string password)
         {
@@ -31,6 +31,7 @@
         public int IdCredencial { get; set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
-        public Customer Customer { get; set; }
+        public Customer Customer { get; private set; }
+        public Employee Employee { get; private set; }
     }
 }
