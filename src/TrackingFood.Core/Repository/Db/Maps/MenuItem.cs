@@ -12,6 +12,10 @@ namespace TrackingFood.Core.Repository.Db.Maps
             builder.Property(p => p.Name).HasMaxLength(100);
             builder.Property(p => p.Description).HasMaxLength(100);
             builder.Property(p => p.UrlImage).HasMaxLength(1000);
+
+            builder.HasMany(p => p.OrderItems)
+                .WithOne(p => p.MenuItem)
+                .HasForeignKey(p=> p.IdMenuItem);
         }
     }
 }

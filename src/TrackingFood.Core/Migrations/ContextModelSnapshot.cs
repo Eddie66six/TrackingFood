@@ -199,13 +199,19 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date");
+
                     b.Property<decimal>("DeliveryValue");
 
                     b.Property<int>("IdCompanyBranch");
 
+                    b.Property<int>("IdCustomer");
+
                     b.HasKey("IdOrder");
 
                     b.HasIndex("IdCompanyBranch");
+
+                    b.HasIndex("IdCustomer");
 
                     b.ToTable("Orders");
                 });
@@ -220,15 +226,13 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<int>("IdMenuItem");
 
-                    b.Property<int?>("MenuItemIdMenuItens");
-
-                    b.Property<int?>("OrderIdOrder");
+                    b.Property<int>("IdOrder");
 
                     b.HasKey("IdOrderItem");
 
-                    b.HasIndex("MenuItemIdMenuItens");
+                    b.HasIndex("IdMenuItem");
 
-                    b.HasIndex("OrderIdOrder");
+                    b.HasIndex("IdOrder");
 
                     b.ToTable("OrderItems");
                 });
@@ -243,11 +247,11 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<int>("IdDeliveryAddress");
 
-                    b.Property<int>("IdDeliveryman");
+                    b.Property<int?>("IdDeliveryman");
 
                     b.Property<int>("IdOrder");
 
-                    b.Property<int>("Position");
+                    b.Property<int?>("Position");
 
                     b.HasKey("IdQueue");
 
@@ -356,17 +360,24 @@ namespace TrackingFood.Core.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("IdCompanyBranch")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Customer", "Customer")
+                        .WithMany("orders")
+                        .HasForeignKey("IdCustomer")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.OrderItem", b =>
                 {
                     b.HasOne("TrackingFood.Core.Domain.Entities.MenuItem", "MenuItem")
                         .WithMany("OrderItems")
-                        .HasForeignKey("MenuItemIdMenuItens");
+                        .HasForeignKey("IdMenuItem")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TrackingFood.Core.Domain.Entities.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderIdOrder");
+                        .HasForeignKey("IdOrder")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Queue", b =>
@@ -383,13 +394,12 @@ namespace TrackingFood.Core.Migrations
 
                     b.HasOne("TrackingFood.Core.Domain.Entities.Deliveryman", "Deliveryman")
                         .WithMany("Queues")
-                        .HasForeignKey("IdDeliveryman")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IdDeliveryman");
 
                     b.HasOne("TrackingFood.Core.Domain.Entities.Order", "Order")
                         .WithOne("Queue")
                         .HasForeignKey("TrackingFood.Core.Domain.Entities.Queue", "IdOrder")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.QueueHistory", b =>
@@ -412,7 +422,7 @@ namespace TrackingFood.Core.Migrations
                     b.HasOne("TrackingFood.Core.Domain.Entities.Order", "Order")
                         .WithOne("QueueHistory")
                         .HasForeignKey("TrackingFood.Core.Domain.Entities.QueueHistory", "IdOrder")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

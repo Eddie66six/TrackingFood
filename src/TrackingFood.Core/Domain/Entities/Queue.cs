@@ -6,20 +6,30 @@
         {
             
         }
-        public Queue(int position)
+        public Queue(int idDeliveryAddress, Order order, int idCompanyBrach)
         {
+            IdDeliveryAddress = idDeliveryAddress;
+            Order = order;
+            IdCompanyBranch = idCompanyBrach;
             Validate();
         }
         protected override void Validate()
         {
-            throw new System.NotImplementedException();
+            if (IdDeliveryAddress <= 0 || Order == null || IdCompanyBranch <= 0)
+                AddError("Invalid queue");
+        }
+
+        public void Forward(int idDeliveryman, int position)
+        {
+            IdDeliveryAddress = idDeliveryman;
+            Position = position;
         }
         public int IdQueue { get; set; }
-        public int Position { get; set; }
         public int IdDeliveryAddress { get; set; }
         public DeliveryAddress DeliveryAddress { get; set; }
-        public int IdDeliveryman { get; set; }
+        public int? IdDeliveryman { get; set; }
         public Deliveryman Deliveryman { get; set; }
+        public int? Position { get; set; }
         public int IdOrder { get; set; }
         public Order Order { get; set; }
         public int IdCompanyBranch { get; set; }

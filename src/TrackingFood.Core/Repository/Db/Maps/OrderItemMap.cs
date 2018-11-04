@@ -9,6 +9,8 @@ namespace TrackingFood.Core.Repository.Db.Maps
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             builder.HasKey(p => p.IdOrderItem);
+
+            builder.HasOne(p => p.MenuItem);
         }
     }
 }

@@ -9,7 +9,10 @@ namespace TrackingFood.Core.Repository.Db.Maps
         public void Configure(EntityTypeBuilder<Queue> builder)
         {
             builder.HasKey(p => p.IdQueue);
-            builder.HasOne(p => p.Order);
+
+            builder.HasOne(p => p.Order)
+                .WithOne(p => p.Queue)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

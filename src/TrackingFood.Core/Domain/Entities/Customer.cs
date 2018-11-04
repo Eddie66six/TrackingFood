@@ -48,5 +48,6 @@ namespace TrackingFood.Core.Domain.Entities
         public List<DeliveryAddress> Adresses { get; private set; }
         public int IdCredencial { get; private set; }
         public Credencial Credencial { get; private set; }
+        public List<Order> orders { get; private set; }
     }
 }
