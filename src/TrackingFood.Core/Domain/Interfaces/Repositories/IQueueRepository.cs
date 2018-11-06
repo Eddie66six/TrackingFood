@@ -6,6 +6,7 @@ namespace TrackingFood.Core.Domain.Interfaces.Repositories
     public interface IQueueRepository : IBaseRepository<Queue>
     {
         Queue[] Get(int[] ids);
-        QueueViewModel[] GetBasicDapper(int idCompanyBranch);
+        QueueViewModel[] GetBasicNotforwardedDapper(int idCompanyBranch);
+        QueueViewModel[] GetBasicforwardedDapper(int idDeliveryman);
     }
 }

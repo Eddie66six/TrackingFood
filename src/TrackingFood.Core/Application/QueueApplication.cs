@@ -47,9 +47,14 @@ namespace TrackingFood.Core.Application
             Commit();
         }
 
-        public QueueViewModel[] GetBasic(int idCompanyBranch)
+        public QueueViewModel[] GetBasicforwarded(int idDeliveryman)
         {
-            return _queueRepository.GetBasicDapper(idCompanyBranch);
+            return _queueRepository.GetBasicforwardedDapper(idDeliveryman);
+        }
+
+        public QueueViewModel[] GetBasicNotforwarded(int idCompanyBranch)
+        {
+            return _queueRepository.GetBasicNotforwardedDapper(idCompanyBranch);
         }
     }
 }

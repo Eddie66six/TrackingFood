@@ -29,9 +29,15 @@ namespace TrackingFood.Api.Controllers
             return CreateResponse(null);
         }
         [HttpGet]
-        public Task<ObjectResult> Get(int idCompanyBranch)
+        public Task<ObjectResult> GetNotforwarded(int idCompanyBranch)
         {
-            return CreateResponse(_queueApplication.GetBasic(idCompanyBranch));
+            return CreateResponse(_queueApplication.GetBasicNotforwarded(idCompanyBranch));
+        }
+        [HttpGet]
+        [Route("Forwarded")]
+        public Task<ObjectResult> GetForwarded(int idDeliveryman)
+        {
+            return CreateResponse(_queueApplication.GetBasicforwarded(idDeliveryman));
         }
     }
 }
