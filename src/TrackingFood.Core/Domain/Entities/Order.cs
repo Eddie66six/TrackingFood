@@ -51,5 +51,6 @@ namespace TrackingFood.Core.Domain.Entities
         public QueueHistory QueueHistory { get; private set; }
         public int IdCustomer { get; private set; }
         public Customer Customer { get; set; }
+        public bool FlCanceled { get; set; }
     }
 }

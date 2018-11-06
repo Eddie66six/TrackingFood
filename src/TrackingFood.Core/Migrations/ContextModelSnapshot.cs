@@ -41,6 +41,10 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<int>("IdCompany");
 
+                    b.Property<string>("Latitude");
+
+                    b.Property<string>("Longitude");
+
                     b.Property<string>("Name")
                         .HasMaxLength(200);
 
@@ -105,6 +109,10 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<int>("IdCustomer");
 
+                    b.Property<string>("Latitude");
+
+                    b.Property<string>("Longitude");
+
                     b.HasKey("IdDeliveryAddress");
 
                     b.HasIndex("IdCustomer");
@@ -118,10 +126,16 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CurrentCompanyBranchIdCompanyBranch");
+
+                    b.Property<int>("IdCurrentCompanyBranch");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
                     b.HasKey("IdDeliveryman");
+
+                    b.HasIndex("CurrentCompanyBranchIdCompanyBranch");
 
                     b.ToTable("Deliverymen");
                 });
@@ -202,6 +216,8 @@ namespace TrackingFood.Core.Migrations
                     b.Property<DateTime>("Date");
 
                     b.Property<decimal>("DeliveryValue");
+
+                    b.Property<bool>("FlCanceled");
 
                     b.Property<int>("IdCompanyBranch");
 
@@ -323,6 +339,14 @@ namespace TrackingFood.Core.Migrations
                         .WithMany("Adresses")
                         .HasForeignKey("IdCustomer")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Deliveryman", b =>
+                {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CurrentCompanyBranch")
+                        .WithMany("CurrentDeliverymens")
+                        .HasForeignKey("CurrentCompanyBranchIdCompanyBranch")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Employee", b =>

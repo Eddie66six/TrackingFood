@@ -8,25 +8,30 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-        public DeliveryAddress(string city, string address, string fullNumber)
+        public DeliveryAddress(string city, string address, string fullNumber, string latitude, string longitude)
         {
             City = city;
             Address = address;
             FullNumber = fullNumber;
+            Latitude = latitude;
+            Longitude = longitude;
             Validate();
         }
 
-        public void Update(string city, string address, string fullNumber)
+        public void Update(string city, string address, string fullNumber, string latitude, string longitude)
         {
             City = city;
             Address = address;
             FullNumber = fullNumber;
+            Latitude = latitude;
+            Longitude = longitude;
             Validate();
         }
 
         protected override void Validate()
         {
-            if (string.IsNullOrEmpty(City) || string.IsNullOrEmpty(Address) || string.IsNullOrEmpty(FullNumber))
+            if (string.IsNullOrEmpty(City) || string.IsNullOrEmpty(Address) || string.IsNullOrEmpty(FullNumber)
+                || string.IsNullOrEmpty(Latitude) || string.IsNullOrEmpty(Longitude))
                 AddError("Invalid Address");
         }
 
@@ -37,5 +42,7 @@ namespace TrackingFood.Core.Domain.Entities
         public int IdCustomer { get; private set; }
         public Customer Customer { get; private set; }
         public IEnumerable<Queue> Queues { get; private set; }
+        public string Latitude { get; private set; }
+        public string Longitude { get; private set; }
     }
 }

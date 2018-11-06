@@ -19,5 +19,7 @@ namespace TrackingFood.Core.Domain.Entities
         public int IdDeliveryman { get; set; }
         public string Name { get; set; }
         public IEnumerable<Queue> Queues { get; set; }
+        public int IdCurrentCompanyBranch { get; set; }
+        public CompanyBranch CurrentCompanyBranch { get; set; }
     }
 }

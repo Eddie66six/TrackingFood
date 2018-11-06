@@ -11,5 +11,7 @@
         public string City { get; set; }
         public string Address { get; set; }
         public string FullNumber { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }

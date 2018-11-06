@@ -15,8 +15,8 @@ namespace TrackingFood.Core.Application
         }
         public int? Create(CreateCustomerViewModel customer)
         {
-            var objCustomer = new Customer(customer.Name,customer.DocumentNumber,
-                new DeliveryAddress(customer.City, customer.Address, customer.FullNumber), new Credencial(customer.Email, customer.Password));
+            var objCustomer = new Customer(customer.Name, customer.DocumentNumber,
+                new DeliveryAddress(customer.City, customer.Address, customer.FullNumber, customer.Latitude, customer.Longitude), new Credencial(customer.Email, customer.Password));
             _customerRepository.Create(objCustomer);
             if (!IsError() && _customerRepository.ExistEmailDapper(objCustomer.Credencial.Email))
                 AddError("Email already exists");

@@ -36,26 +36,15 @@ namespace TrackingFood.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Deliverymen",
-                columns: table => new
-                {
-                    IdDeliveryman = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Deliverymen", x => x.IdDeliveryman);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CompanyBranches",
                 columns: table => new
                 {
                     IdCompanyBranch = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 200, nullable: true),
-                    IdCompany = table.Column<int>(nullable: false)
+                    IdCompany = table.Column<int>(nullable: false),
+                    Latitude = table.Column<string>(nullable: true),
+                    Longitude = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,6 +76,27 @@ namespace TrackingFood.Core.Migrations
                         principalTable: "Credencials",
                         principalColumn: "IdCredencial",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Deliverymen",
+                columns: table => new
+                {
+                    IdDeliveryman = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    IdCurrentCompanyBranch = table.Column<int>(nullable: false),
+                    CurrentCompanyBranchIdCompanyBranch = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deliverymen", x => x.IdDeliveryman);
+                    table.ForeignKey(
+                        name: "FK_Deliverymen_CompanyBranches_CurrentCompanyBranchIdCompanyBranch",
+                        column: x => x.CurrentCompanyBranchIdCompanyBranch,
+                        principalTable: "CompanyBranches",
+                        principalColumn: "IdCompanyBranch",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,7 +155,9 @@ namespace TrackingFood.Core.Migrations
                     City = table.Column<string>(nullable: true),
                     Address = table.Column<string>(maxLength: 200, nullable: true),
                     FullNumber = table.Column<string>(maxLength: 50, nullable: true),
-                    IdCustomer = table.Column<int>(nullable: false)
+                    IdCustomer = table.Column<int>(nullable: false),
+                    Latitude = table.Column<string>(nullable: true),
+                    Longitude = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,7 +179,8 @@ namespace TrackingFood.Core.Migrations
                     DeliveryValue = table.Column<decimal>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     IdCompanyBranch = table.Column<int>(nullable: false),
-                    IdCustomer = table.Column<int>(nullable: false)
+                    IdCustomer = table.Column<int>(nullable: false),
+                    FlCanceled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -300,7 +313,6 @@ namespace TrackingFood.Core.Migrations
                     IdOrderItem = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IdMenuItem = table.Column<int>(nullable: false),
-                    MenuItemIdMenuItens = table.Column<int>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
                     IdOrder = table.Column<int>(nullable: false)
                 },
@@ -308,17 +320,17 @@ namespace TrackingFood.Core.Migrations
                 {
                     table.PrimaryKey("PK_OrderItems", x => x.IdOrderItem);
                     table.ForeignKey(
+                        name: "FK_OrderItems_MenuItems_IdMenuItem",
+                        column: x => x.IdMenuItem,
+                        principalTable: "MenuItems",
+                        principalColumn: "IdMenuItens",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_OrderItems_Orders_IdOrder",
                         column: x => x.IdOrder,
                         principalTable: "Orders",
                         principalColumn: "IdOrder",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_MenuItems_MenuItemIdMenuItens",
-                        column: x => x.MenuItemIdMenuItens,
-                        principalTable: "MenuItems",
-                        principalColumn: "IdMenuItens",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -336,6 +348,11 @@ namespace TrackingFood.Core.Migrations
                 name: "IX_DeliveryAddresses_IdCustomer",
                 table: "DeliveryAddresses",
                 column: "IdCustomer");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Deliverymen_CurrentCompanyBranchIdCompanyBranch",
+                table: "Deliverymen",
+                column: "CurrentCompanyBranchIdCompanyBranch");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_IdCompanyBranch",
@@ -359,14 +376,14 @@ namespace TrackingFood.Core.Migrations
                 column: "IdCompanyBranch");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_IdMenuItem",
+                table: "OrderItems",
+                column: "IdMenuItem");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_IdOrder",
                 table: "OrderItems",
                 column: "IdOrder");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_MenuItemIdMenuItens",
-                table: "OrderItems",
-                column: "MenuItemIdMenuItens");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_IdCompanyBranch",
