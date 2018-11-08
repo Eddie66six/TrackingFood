@@ -13,9 +13,9 @@ namespace TrackingFood.Core.Application
             _employeeRepository = employeeRepository;
         }
 
-        public Employee[] GetCurrentEmployees(int idCompanyBranch)
+        public Employee[] Get(int idCompanyBranch)
         {
-            return _employeeRepository.GetCurrentEmployeesDapper(idCompanyBranch);
+            return _employeeRepository.GetDapper(idCompanyBranch);
         }
     }
 }

@@ -10,16 +10,24 @@ namespace TrackingFood.Core.Domain.Entities
         }
         public Deliveryman(string name)
         {
+            Name = name;
             Validate();
         }
         protected override void Validate()
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(Name))
+                AddError("Invalid deliveryman");
         }
-        public int IdDeliveryman { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<Queue> Queues { get; set; }
-        public int IdCurrentCompanyBranch { get; set; }
-        public CompanyBranch CurrentCompanyBranch { get; set; }
+
+        public void SetCurrentCompanyBranch(int idCompanyBranch)
+        {
+            IdCurrentCompanyBranch = idCompanyBranch;
+        }
+
+        public int IdDeliveryman { get; private set; }
+        public string Name { get; private set; }
+        public IEnumerable<Queue> Queues { get; private set; }
+        public int? IdCurrentCompanyBranch { get; private set; }
+        public CompanyBranch CurrentCompanyBranch { get; private set; }
     }
 }

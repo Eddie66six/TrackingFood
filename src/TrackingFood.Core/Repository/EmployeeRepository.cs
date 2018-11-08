@@ -14,7 +14,7 @@ namespace TrackingFood.Core.Repository
         {
         }
 
-        public Employee[] GetCurrentEmployeesDapper(int idCompanyBranch)
+        public Employee[] GetDapper(int idCompanyBranch)
         {
             using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
             {

@@ -17,7 +17,7 @@ namespace TrackingFood.Api.Controllers
         [HttpGet]
         public Task<ObjectResult> Get(int idCompanyBranch)
         {
-            return CreateResponse(_employeeApplication.GetCurrentEmployees(idCompanyBranch));
+            return CreateResponse(_employeeApplication.Get(idCompanyBranch));
         }
     }
 }

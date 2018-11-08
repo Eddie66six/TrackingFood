@@ -28,6 +28,7 @@ namespace TrackingFood.Core.Repository.Db.Maps
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(p => p.CurrentDeliverymens)
                 .WithOne(p => p.CurrentCompanyBranch)
+                .HasForeignKey(p => p.IdCurrentCompanyBranch)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

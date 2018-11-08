@@ -10,7 +10,7 @@ using TrackingFood.Core.Repository.Db;
 namespace TrackingFood.Core.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20181106124645_InitialCreate")]
+    [Migration("20181108001223_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,16 +128,14 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CurrentCompanyBranchIdCompanyBranch");
-
-                    b.Property<int>("IdCurrentCompanyBranch");
+                    b.Property<int?>("IdCurrentCompanyBranch");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
                     b.HasKey("IdDeliveryman");
 
-                    b.HasIndex("CurrentCompanyBranchIdCompanyBranch");
+                    b.HasIndex("IdCurrentCompanyBranch");
 
                     b.ToTable("Deliverymen");
                 });
@@ -347,7 +345,7 @@ namespace TrackingFood.Core.Migrations
                 {
                     b.HasOne("TrackingFood.Core.Domain.Entities.CompanyBranch", "CurrentCompanyBranch")
                         .WithMany("CurrentDeliverymens")
-                        .HasForeignKey("CurrentCompanyBranchIdCompanyBranch")
+                        .HasForeignKey("IdCurrentCompanyBranch")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

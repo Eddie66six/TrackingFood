@@ -4,6 +4,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Repositories
 {
     public interface IEmployeeRepository: IBaseRepository<Employee>
     {
-        Employee[] GetCurrentEmployeesDapper(int idCompanyBranch);
+        Employee[] GetDapper(int idCompanyBranch);
     }
 }

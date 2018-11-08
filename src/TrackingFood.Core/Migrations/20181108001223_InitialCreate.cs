@@ -85,15 +85,14 @@ namespace TrackingFood.Core.Migrations
                     IdDeliveryman = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
-                    IdCurrentCompanyBranch = table.Column<int>(nullable: false),
-                    CurrentCompanyBranchIdCompanyBranch = table.Column<int>(nullable: true)
+                    IdCurrentCompanyBranch = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Deliverymen", x => x.IdDeliveryman);
                     table.ForeignKey(
-                        name: "FK_Deliverymen_CompanyBranches_CurrentCompanyBranchIdCompanyBranch",
-                        column: x => x.CurrentCompanyBranchIdCompanyBranch,
+                        name: "FK_Deliverymen_CompanyBranches_IdCurrentCompanyBranch",
+                        column: x => x.IdCurrentCompanyBranch,
                         principalTable: "CompanyBranches",
                         principalColumn: "IdCompanyBranch",
                         onDelete: ReferentialAction.Restrict);
@@ -350,9 +349,9 @@ namespace TrackingFood.Core.Migrations
                 column: "IdCustomer");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deliverymen_CurrentCompanyBranchIdCompanyBranch",
+                name: "IX_Deliverymen_IdCurrentCompanyBranch",
                 table: "Deliverymen",
-                column: "CurrentCompanyBranchIdCompanyBranch");
+                column: "IdCurrentCompanyBranch");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_IdCompanyBranch",
