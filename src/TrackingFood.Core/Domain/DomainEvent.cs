@@ -9,10 +9,10 @@ namespace TrackingFood.Core.Domain
     {
         private static List<DomainEventContainer> _domainEventContainer;
 
-        public void AddError(string message, [CallerMemberName] string callerMemberName = null)
+        public void AddError(string message, string details = null, [CallerMemberName] string callerMemberName = null)
         {
             if (_domainEventContainer == null) _domainEventContainer = new List<DomainEventContainer>();
-            _domainEventContainer.Add(new DomainEventContainer(message, callerMemberName));
+            _domainEventContainer.Add(new DomainEventContainer(message,details, callerMemberName));
         }
 
         public void Dispose()
@@ -34,12 +34,14 @@ namespace TrackingFood.Core.Domain
 
     public class DomainEventContainer
     {
-        public DomainEventContainer(string message, string method)
+        public DomainEventContainer(string message, string details, string method)
         {
             Message = message;
+            Details = details;
             Method = method;
         }
         public string Message { get; }
+        public string Details { get; set; }
         public string Method { get; }
     }
 }

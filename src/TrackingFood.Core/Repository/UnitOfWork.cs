@@ -22,7 +22,7 @@ namespace TrackingFood.Core.Repository
             }
             catch (Exception e)
             {
-                AddError(e.Message);
+                AddError(e.Message, e.InnerException.Message);
                 return false;
             }
         }

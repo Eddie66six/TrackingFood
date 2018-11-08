@@ -2,7 +2,7 @@
 {
     public interface IDomainEvent
     {
-        void AddError(string message, string callerMemberName = null);
+        void AddError(string message, string details = null, string callerMemberName = null);
         bool IsError();
         DomainEventContainer[] GetErrorMessages();
     }
