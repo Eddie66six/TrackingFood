@@ -6,5 +6,7 @@ namespace TrackingFood.Core.Domain.Interfaces.Repositories
     {
         MenuItem Get(int id);
         bool ExistMenuItemNameDapper(int idMenu, string name);
+        bool ExistMenuItemNameDapper(int idMenu, string[] names);
+        MenuItem[] CreateRange(MenuItem[] menuItems);
     }
 }

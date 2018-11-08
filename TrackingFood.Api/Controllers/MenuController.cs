@@ -24,9 +24,10 @@ namespace TrackingFood.Api.Controllers
         }
         [HttpPost]
         [Route("Item")]
-        public Task<ObjectResult> Create(CreateMenuItemViewModel  createMenuItemViewModel)
+        public Task<ObjectResult> Create(CreateMenuItemsViewModel  createMenuItemViewModel)
         {
-            return CreateResponse(_menuItemApplication.Create(createMenuItemViewModel));
+            _menuItemApplication.Create(createMenuItemViewModel);
+            return CreateResponse(null);
         }
         [HttpGet]
         [Route("Item")]

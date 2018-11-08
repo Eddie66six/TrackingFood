@@ -4,6 +4,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Applications
 {
     public interface IMenuItemApplication : IBaseApplication
     {
-        int? Create(CreateMenuItemViewModel menuItem);
+        void Create(CreateMenuItemsViewModel menuItem);
     }
 }
