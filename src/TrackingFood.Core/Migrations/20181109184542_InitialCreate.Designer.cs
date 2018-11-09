@@ -10,7 +10,7 @@ using TrackingFood.Core.Repository.Db;
 namespace TrackingFood.Core.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20181108001223_InitialCreate")]
+    [Migration("20181109184542_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,28 @@ namespace TrackingFood.Core.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Address", b =>
+                {
+                    b.Property<int>("IdAddress")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressDescription");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("FullNumber")
+                        .HasMaxLength(50);
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.HasKey("IdAddress");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.Company", b =>
                 {
@@ -101,21 +123,17 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("FullNumber")
-                        .HasMaxLength(50);
+                    b.Property<int>("IdAddress");
 
                     b.Property<int>("IdCustomer");
 
-                    b.Property<string>("Latitude");
-
-                    b.Property<string>("Longitude");
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
 
                     b.HasKey("IdDeliveryAddress");
+
+                    b.HasIndex("IdAddress")
+                        .IsUnique();
 
                     b.HasIndex("IdCustomer");
 
@@ -335,6 +353,11 @@ namespace TrackingFood.Core.Migrations
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.DeliveryAddress", b =>
                 {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Address", "Address")
+                        .WithOne("DeliveryAddress")
+                        .HasForeignKey("TrackingFood.Core.Domain.Entities.DeliveryAddress", "IdAddress")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("TrackingFood.Core.Domain.Entities.Customer", "Customer")
                         .WithMany("Adresses")
                         .HasForeignKey("IdCustomer")

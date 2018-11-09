@@ -29,6 +29,7 @@ namespace TrackingFood.Core.Repository.Db
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyBranch> CompanyBranches { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,6 +56,7 @@ namespace TrackingFood.Core.Repository.Db
             modelBuilder.ApplyConfiguration(new CompanyMap());
             modelBuilder.ApplyConfiguration(new CompanyBranchMap());
             modelBuilder.ApplyConfiguration(new EmployeeMap());
+            modelBuilder.ApplyConfiguration(new AddressMap());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -9,8 +9,7 @@ namespace TrackingFood.Core.Repository.Db.Maps
         public void Configure(EntityTypeBuilder<DeliveryAddress> builder)
         {
             builder.HasKey(p => p.IdDeliveryAddress);
-            builder.Property(p => p.Address).HasMaxLength(200);
-            builder.Property(p => p.FullNumber).HasMaxLength(50);
+            builder.Property(p => p.Name).HasMaxLength(200);
 
             builder.HasMany(p => p.Queues)
                 .WithOne(p => p.DeliveryAddress);

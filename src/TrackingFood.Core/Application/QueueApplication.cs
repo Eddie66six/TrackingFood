@@ -13,12 +13,14 @@ namespace TrackingFood.Core.Application
         private readonly IQueueRepository _queueRepository;
         private readonly IQueueHistoryRepository _queueHistoryRepository;
         private readonly IDeliverymanRepository _deliverymanRepository;
+        private readonly ICompanyBranchRepository _companyBranchRepository;
         public QueueApplication(IUnitOfWork unitOfWork, IQueueRepository queueRepository, IQueueHistoryRepository queueHistoryRepository,
-            IDeliverymanRepository deliverymanRepository) : base(unitOfWork)
+            IDeliverymanRepository deliverymanRepository, ICompanyBranchRepository companyBranchRepository) : base(unitOfWork)
         {
             _queueRepository = queueRepository;
             _queueHistoryRepository = queueHistoryRepository;
             _deliverymanRepository = deliverymanRepository;
+            _companyBranchRepository = companyBranchRepository;
         }
 
         public int? Create(CreateOrderViewModel order)
@@ -74,6 +76,14 @@ namespace TrackingFood.Core.Application
             {
                 item.Forward(forwardToDeDeliveryman.IdDeliveryman, forwardToDeDeliveryman.Items.First(p => p.IdQueue == item.IdQueue).Position);
             }
+
+            var objCompanyBranch = _companyBranchRepository.Get(forwardToDeDeliveryman.IdCompanyBranch);
+            if (objCompanyBranch == null)
+            {
+                AddError("Company branch not found");
+                return;
+            }
+            //calculate distance
 
             Commit();
         }
