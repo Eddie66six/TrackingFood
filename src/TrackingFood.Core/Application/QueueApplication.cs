@@ -11,9 +11,14 @@ namespace TrackingFood.Core.Application
     public class QueueApplication : BaseApplication, IQueueApplication
     {
         private readonly IQueueRepository _queueRepository;
-        public QueueApplication(IUnitOfWork unitOfWork, IQueueRepository queueRepository) : base(unitOfWork)
+        private readonly IQueueHistoryRepository _queueHistoryRepository;
+        private readonly IDeliverymanRepository _deliverymanRepository;
+        public QueueApplication(IUnitOfWork unitOfWork, IQueueRepository queueRepository, IQueueHistoryRepository queueHistoryRepository,
+            IDeliverymanRepository deliverymanRepository) : base(unitOfWork)
         {
             _queueRepository = queueRepository;
+            _queueHistoryRepository = queueHistoryRepository;
+            _deliverymanRepository = deliverymanRepository;
         }
 
         public int? Create(CreateOrderViewModel order)
@@ -30,11 +35,37 @@ namespace TrackingFood.Core.Application
             return null;
         }
 
+        public void DeliverOrder(int idQueue)
+        {
+            var objQueue = _queueRepository.Get(idQueue, new string[]{ "Order" });
+            if(objQueue == null)
+            {
+                AddError("Queue not found");
+                return;
+            }
+            var objQueueHistory = new QueueHistory(objQueue);
+            _queueHistoryRepository.Create(objQueueHistory);
+            _queueRepository.Delete(objQueue);
+            Commit();
+        }
+
         public void Forward(ForwardToDeDeliveryman forwardToDeDeliveryman)
         {
             if (forwardToDeDeliveryman.Items.GroupBy(p => p.Position).Select(p => p.Count()).Any(p => p > 1))
             {
                 AddError("Duplicate position");
+                return;
+            }
+
+            var objDeliveyman = _deliverymanRepository.Get(forwardToDeDeliveryman.IdDeliveryman);
+            if(objDeliveyman == null)
+            {
+                AddError("Deliveryman not found");
+                return;
+            }
+            if(objDeliveyman.IdCurrentCompanyBranch == null || objDeliveyman.IdCurrentCompanyBranch != forwardToDeDeliveryman.IdCompanyBranch)
+            {
+                AddError("Deliveryman not forward to companybranch");
                 return;
             }
 

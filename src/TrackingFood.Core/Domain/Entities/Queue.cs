@@ -21,7 +21,7 @@
 
         public void Forward(int idDeliveryman, int position)
         {
-            IdDeliveryAddress = idDeliveryman;
+            IdDeliveryman = idDeliveryman;
             Position = position;
         }
         public int IdQueue { get; set; }

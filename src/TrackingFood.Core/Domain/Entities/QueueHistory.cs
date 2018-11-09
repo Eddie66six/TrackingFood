@@ -8,13 +8,21 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-        public QueueHistory(int position)
+        public QueueHistory(Queue queue)
         {
+            Position = queue.Position.GetValueOrDefault();
+            IdDeliveryman = queue.IdDeliveryman.GetValueOrDefault();
+            IdDeliveryAddress = queue.IdDeliveryAddress;
+            RequestDate = queue.Order.Date;
+            DeliveryDate = DateTime.Now;
+            IdOrder = queue.IdOrder;
+            IdCompanyBranch = queue.IdCompanyBranch;
             Validate();
         }
         protected override void Validate()
         {
-            throw new NotImplementedException();
+            if (Position == 0 || IdDeliveryman == 0)
+                AddError("Invalid history");
         }
         public int IdQueueHistory { get; set; }
         public int Position { get; set; }

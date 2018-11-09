@@ -26,7 +26,7 @@ namespace TrackingFood.Core.Domain.Entities
         }
         protected override void Validate()
         {
-            if (string.IsNullOrEmpty(Name) || (IdCompany <= 0 && Company == null))
+            if (string.IsNullOrEmpty(Name) || (IdCompany <= 0 && Company == null) || string.IsNullOrEmpty(Latitude) || string.IsNullOrEmpty(Longitude))
                 AddError("Invalid Company branch");
         }
         public int IdCompanyBranch { get; set; }

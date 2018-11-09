@@ -1,4 +1,5 @@
-﻿using TrackingFood.Core.Domain.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Repository.Db;
 
 namespace TrackingFood.Core.Repository
@@ -16,6 +17,11 @@ namespace TrackingFood.Core.Repository
         {
             _context.Set<T>().Add(entity);
             return entity;
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
         }
     }
 }

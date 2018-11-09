@@ -39,5 +39,12 @@ namespace TrackingFood.Api.Controllers
         {
             return CreateResponse(_queueApplication.GetBasicforwarded(idDeliveryman));
         }
+        [HttpPost]
+        [Route("Deliver")]
+        public Task<ObjectResult> Deliver(int idQueue)
+        {
+            _queueApplication.DeliverOrder(idQueue);
+            return CreateResponse(null);
+        }
     }
 }

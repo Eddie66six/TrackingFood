@@ -5,6 +5,7 @@ namespace TrackingFood.Core.Domain.ViewModel.Request
     public class ForwardToDeDeliveryman
     {
         public int IdDeliveryman { get; set; }
+        public int IdCompanyBranch { get; set; }
         public List<ForwardToDeDeliverymanItem> Items { get; set; }
     }
 
