@@ -61,16 +61,17 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("IdAddress");
+
                     b.Property<int>("IdCompany");
-
-                    b.Property<string>("Latitude");
-
-                    b.Property<string>("Longitude");
 
                     b.Property<string>("Name")
                         .HasMaxLength(200);
 
                     b.HasKey("IdCompanyBranch");
+
+                    b.HasIndex("IdAddress")
+                        .IsUnique();
 
                     b.HasIndex("IdCompany");
 
@@ -335,6 +336,11 @@ namespace TrackingFood.Core.Migrations
 
             modelBuilder.Entity("TrackingFood.Core.Domain.Entities.CompanyBranch", b =>
                 {
+                    b.HasOne("TrackingFood.Core.Domain.Entities.Address", "Address")
+                        .WithOne("CompanyBranch")
+                        .HasForeignKey("TrackingFood.Core.Domain.Entities.CompanyBranch", "IdAddress")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("TrackingFood.Core.Domain.Entities.Company", "Company")
                         .WithMany("CompanyBranches")
                         .HasForeignKey("IdCompany")

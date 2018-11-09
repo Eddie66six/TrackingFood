@@ -1,4 +1,7 @@
-﻿namespace TrackingFood.Core.Domain.Entities
+﻿using System;
+using System.Globalization;
+
+namespace TrackingFood.Core.Domain.Entities
 {
     public sealed class Address : Entity
     {
@@ -29,7 +32,7 @@
         protected override void Validate()
         {
             if (string.IsNullOrEmpty(City) || string.IsNullOrEmpty(AddressDescription) || string.IsNullOrEmpty(FullNumber)
-                || Latitude == 0 || Longitude == 0)
+                || Latitude.ToString(CultureInfo.InvariantCulture).Length > 3 || Longitude.ToString(CultureInfo.InvariantCulture).Length > 3)
                 AddError("Invalid Address");
         }
 
@@ -49,5 +52,6 @@
         public double Latitude { get; private set; }
         public double Longitude { get; private set; }
         public DeliveryAddress DeliveryAddress { get; private set; }
+        public CompanyBranch CompanyBranch { get; private set; }
     }
 }

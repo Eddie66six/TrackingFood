@@ -60,12 +60,17 @@ namespace TrackingFood.Core.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 200, nullable: true),
                     IdCompany = table.Column<int>(nullable: false),
-                    Latitude = table.Column<string>(nullable: true),
-                    Longitude = table.Column<string>(nullable: true)
+                    IdAddress = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CompanyBranches", x => x.IdCompanyBranch);
+                    table.ForeignKey(
+                        name: "FK_CompanyBranches_Addresses_IdAddress",
+                        column: x => x.IdAddress,
+                        principalTable: "Addresses",
+                        principalColumn: "IdAddress",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CompanyBranches_Companies_IdCompany",
                         column: x => x.IdCompany,
@@ -353,6 +358,12 @@ namespace TrackingFood.Core.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompanyBranches_IdAddress",
+                table: "CompanyBranches",
+                column: "IdAddress",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanyBranches_IdCompany",
                 table: "CompanyBranches",
                 column: "IdCompany");
@@ -493,9 +504,6 @@ namespace TrackingFood.Core.Migrations
                 name: "Menus");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
-
-            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
@@ -503,6 +511,9 @@ namespace TrackingFood.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "Credencials");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Companies");

@@ -8,25 +8,17 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-        public CompanyBranch(string name, int idCompany, string latitude, string longitude)
+        public CompanyBranch(string name, int idCompany, Address address)
         {
             Name = name;
             IdCompany = idCompany;
-            Latitude = latitude;
-            Longitude = longitude;
+            Address = address;
             Validate();
         }
-        public CompanyBranch(string name, Company company, string latitude, string longitude)
-        {
-            Name = name;
-            Company = company;
-            Latitude = latitude;
-            Longitude = longitude;
-            Validate();
-        }
+
         protected override void Validate()
         {
-            if (string.IsNullOrEmpty(Name) || (IdCompany <= 0 && Company == null) || string.IsNullOrEmpty(Latitude) || string.IsNullOrEmpty(Longitude))
+            if (string.IsNullOrEmpty(Name) || (IdCompany <= 0 && Company == null) || Address == null)
                 AddError("Invalid Company branch");
         }
         public int IdCompanyBranch { get; set; }
@@ -38,8 +30,8 @@ namespace TrackingFood.Core.Domain.Entities
         public IEnumerable<Queue> Queues { get; set; }
         public IEnumerable<QueueHistory> QueueHistories { get; set; }
         public IEnumerable<Employee> Employees { get; set; }
-        public string Latitude { get; private set; }
-        public string Longitude { get; private set; }
         public IEnumerable<Deliveryman> CurrentDeliverymens { get; set; }
+        public int IdAddress { get; set; }
+        public Address Address { get; private set; }
     }
 }
