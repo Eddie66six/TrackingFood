@@ -52,6 +52,7 @@ namespace TrackingFood.Api
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IDeliverymanRepository, DeliverymanRepository>();
             services.AddScoped<IQueueHistoryRepository, QueueHistoryRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

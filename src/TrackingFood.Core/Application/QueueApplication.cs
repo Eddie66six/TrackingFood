@@ -14,13 +14,15 @@ namespace TrackingFood.Core.Application
         private readonly IQueueHistoryRepository _queueHistoryRepository;
         private readonly IDeliverymanRepository _deliverymanRepository;
         private readonly ICompanyBranchRepository _companyBranchRepository;
+        private readonly IAddressRepository _addressRepository;
         public QueueApplication(IUnitOfWork unitOfWork, IQueueRepository queueRepository, IQueueHistoryRepository queueHistoryRepository,
-            IDeliverymanRepository deliverymanRepository, ICompanyBranchRepository companyBranchRepository) : base(unitOfWork)
+            IDeliverymanRepository deliverymanRepository, ICompanyBranchRepository companyBranchRepository, IAddressRepository addressRepository) : base(unitOfWork)
         {
             _queueRepository = queueRepository;
             _queueHistoryRepository = queueHistoryRepository;
             _deliverymanRepository = deliverymanRepository;
             _companyBranchRepository = companyBranchRepository;
+            _addressRepository = addressRepository;
         }
 
         public int? Create(CreateOrderViewModel order)
@@ -30,7 +32,23 @@ namespace TrackingFood.Core.Application
 
             if (IsError())
                 return null;
-            var objQueue = new Queue(order.IdDeliveryAddress, objOrder, objOrder.IdCompanyBranch);
+
+            //distance
+            var objCompanyBranchAddress = _addressRepository.GetCompanyBranchDapper(order.IdCompanyBranch);
+            if (objCompanyBranchAddress == null)
+            {
+                AddError("Company branch address not found");
+                return null;
+            }
+            var objDeliveryAddress = _addressRepository.GetDelivereyAddressDapper(order.IdDeliveryAddress);
+            if (objDeliveryAddress == null)
+            {
+                AddError("Delivery address not found");
+                return null;
+            }
+
+            var objQueue = new Queue(order.IdDeliveryAddress, objOrder, objOrder.IdCompanyBranch, objCompanyBranchAddress.CalculateDistence(objDeliveryAddress.Latitude, objDeliveryAddress.Longitude));
+            
             _queueRepository.Create(objQueue);
             if (Commit())
                 return objQueue.IdQueue;

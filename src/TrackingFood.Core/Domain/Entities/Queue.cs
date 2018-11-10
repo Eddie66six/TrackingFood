@@ -6,16 +6,17 @@
         {
             
         }
-        public Queue(int idDeliveryAddress, Order order, int idCompanyBrach)
+        public Queue(int idDeliveryAddress, Order order, int idCompanyBrach, double distance)
         {
             IdDeliveryAddress = idDeliveryAddress;
             Order = order;
             IdCompanyBranch = idCompanyBrach;
+            Distance = distance;
             Validate();
         }
         protected override void Validate()
         {
-            if (IdDeliveryAddress <= 0 || Order == null || IdCompanyBranch <= 0)
+            if (IdDeliveryAddress <= 0 || Order == null || IdCompanyBranch <= 0 || Distance <= 0)
                 AddError("Invalid queue");
         }
 
@@ -34,5 +35,6 @@
         public Order Order { get; set; }
         public int IdCompanyBranch { get; set; }
         public CompanyBranch CompanyBranch { get; set; }
+        public double Distance { get; set; }
     }
 }

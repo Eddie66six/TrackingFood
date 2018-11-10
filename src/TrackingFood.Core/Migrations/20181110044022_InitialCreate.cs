@@ -299,7 +299,8 @@ namespace TrackingFood.Core.Migrations
                     IdDeliveryman = table.Column<int>(nullable: true),
                     Position = table.Column<int>(nullable: true),
                     IdOrder = table.Column<int>(nullable: false),
-                    IdCompanyBranch = table.Column<int>(nullable: false)
+                    IdCompanyBranch = table.Column<int>(nullable: false),
+                    Distance = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

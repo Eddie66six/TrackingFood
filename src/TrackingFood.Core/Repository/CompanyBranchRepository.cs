@@ -14,9 +14,16 @@ namespace TrackingFood.Core.Repository
         {
         }
 
-        public CompanyBranch Get(int id)
+        public CompanyBranch Get(int id, string[] includes = null)
         {
-            return _context.CompanyBranches.FirstOrDefault(p=> p.IdCompanyBranch == id);
+            var query = _context.CompanyBranches.Where(p => p.IdCompanyBranch == id);
+            if (includes == null)
+                return query.FirstOrDefault();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.FirstOrDefault();
         }
 
         public bool ExistCompanyNameDapper(string name)

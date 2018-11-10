@@ -26,7 +26,7 @@ namespace TrackingFood.Core.Repository
             using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
             {
                 var date = DateTime.Now.ToString("yyyMMdd");
-                return con.Query<QueueViewModel>(@"select q.IdQueue,o.DeliveryValue, total.value as TotalValue, a.City,a.AddressDescription,a.FullNumber
+                return con.Query<QueueViewModel>(@"select q.IdQueue, q.IdCompanyBranch, o.DeliveryValue, total.value as TotalValue, a.City,a.AddressDescription,a.FullNumber, q.Distance
                         from Queues q inner join Orders o on o.IdOrder = q.IdOrder inner join DeliveryAddresses d on d.IdDeliveryAddress = q.IdDeliveryAddress inner join Addresses a on a.idAddress = d.idAddress
                         CROSS APPLY(select SUM(m.Value) as value from OrderItems oi inner join MenuItems m on m.IdMenuItens = oi.IdMenuItem where oi.IdOrder = o.idOrder) as total
                         where q.IdDeliveryman is null and q.IdCompanyBranch = @idCompanyBranch and CONVERT(date, o.Date) = @date", new { idCompanyBranch, date }).ToArray();
@@ -37,10 +37,10 @@ namespace TrackingFood.Core.Repository
             using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
             {
                 var date = DateTime.Now.ToString("yyyMMdd");
-                return con.Query<QueueViewModel>(@"select q.IdQueue,o.DeliveryValue, total.value as TotalValue, a.City,A.AddressDescription,a.FullNumber
+                return con.Query<QueueViewModel>(@"select q.IdQueue, q.IdCompanyBranch, o.DeliveryValue, total.value as TotalValue, a.City, A.AddressDescription,a.FullNumber, q.Distance
                         from Queues q inner join Orders o on o.IdOrder = q.IdOrder inner join DeliveryAddresses d on d.IdDeliveryAddress = q.IdDeliveryAddress inner join Addresses a on a.idAddress = d.idAddress
                         CROSS APPLY(select SUM(m.Value) as value from OrderItems oi inner join MenuItems m on m.IdMenuItens = oi.IdMenuItem where oi.IdOrder = o.idOrder) as total
-                        where q.IdCompanyBranch = idDeliveryman and CONVERT(date, o.Date) = date order by q.Position", new { idDeliveryman, date }).ToArray();
+                        where q.IdDeliveryman = @idDeliveryman and CONVERT(date, o.Date) = @date order by q.Position", new { idDeliveryman, date }).ToArray();
             }
         }
 

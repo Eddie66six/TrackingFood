@@ -32,17 +32,27 @@ namespace TrackingFood.Core.Domain.Entities
         protected override void Validate()
         {
             if (string.IsNullOrEmpty(City) || string.IsNullOrEmpty(AddressDescription) || string.IsNullOrEmpty(FullNumber)
-                || Latitude.ToString(CultureInfo.InvariantCulture).Length > 3 || Longitude.ToString(CultureInfo.InvariantCulture).Length > 3)
+                || Latitude.ToString(CultureInfo.InvariantCulture).Length < 5 || Longitude.ToString(CultureInfo.InvariantCulture).Length < 5)
                 AddError("Invalid Address");
         }
 
-        public void CalculateDistence(string latitude, string longitude)
+        public double CalculateDistence(double latitude, double longitude)
         {
-            //System.Device.Location
-            //var sCoord = new GeoCoordinate(sLatitude, sLongitude);
-            //var eCoord = new GeoCoordinate(eLatitude, eLongitude);
+            var R = 6371.0;          // R is earth radius.
+            var dLat = ToRadian(latitude - Latitude);
+            var dLon = ToRadian(longitude - Longitude);
 
-            //return sCoord.GetDistanceTo(eCoord);
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(ToRadian(Latitude)) * Math.Cos(ToRadian(latitude)) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            var c = 2 * Math.Asin(Math.Min(1, Math.Sqrt(a)));
+            var d = R * c;
+
+            return d;
+        }
+
+        private double ToRadian(double val)
+        {
+            return (Math.PI / 180) * val;
         }
 
         public int IdAddress { get; set; }

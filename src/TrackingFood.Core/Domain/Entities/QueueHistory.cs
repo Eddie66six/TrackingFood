@@ -17,6 +17,7 @@ namespace TrackingFood.Core.Domain.Entities
             DeliveryDate = DateTime.Now;
             IdOrder = queue.IdOrder;
             IdCompanyBranch = queue.IdCompanyBranch;
+            Distance = queue.Distance;
             Validate();
         }
         protected override void Validate()
@@ -36,5 +37,6 @@ namespace TrackingFood.Core.Domain.Entities
         public Order Order { get; set; }
         public int IdCompanyBranch { get; set; }
         public CompanyBranch CompanyBranch { get; set; }
+        public double Distance { get; set; }
     }
 }
