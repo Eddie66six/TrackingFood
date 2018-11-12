@@ -25,6 +25,12 @@
             IdDeliveryman = idDeliveryman;
             Position = position;
         }
+
+        public void SetPreparationTime(double preparationTime)
+        {
+            AveragePreparationTime = preparationTime;
+        }
+
         public int IdQueue { get; set; }
         public int IdDeliveryAddress { get; set; }
         public DeliveryAddress DeliveryAddress { get; set; }
@@ -36,5 +42,6 @@
         public int IdCompanyBranch { get; set; }
         public CompanyBranch CompanyBranch { get; set; }
         public double Distance { get; set; }
+        public double AveragePreparationTime { get; set; }
     }
 }

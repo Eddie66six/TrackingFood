@@ -115,5 +115,17 @@ namespace TrackingFood.Core.Application
         {
             return _queueRepository.GetBasicNotforwardedDapper(idCompanyBranch);
         }
+
+        public void SetPreparationTime(int idQueue, double minutes)
+        {
+            var objQueue = _queueRepository.Get(idQueue);
+            if (objQueue == null)
+            {
+                AddError("Queue not found");
+                return;
+            }
+            objQueue.SetPreparationTime(minutes);
+            Commit();
+        }
     }
 }

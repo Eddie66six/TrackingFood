@@ -38,5 +38,6 @@ namespace TrackingFood.Core.Domain.Entities
         public int IdCompanyBranch { get; set; }
         public CompanyBranch CompanyBranch { get; set; }
         public double Distance { get; set; }
+        public double AveragePreparationTime { get; set; }
     }
 }
