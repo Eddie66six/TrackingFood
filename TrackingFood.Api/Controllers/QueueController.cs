@@ -46,5 +46,12 @@ namespace TrackingFood.Api.Controllers
             _queueApplication.DeliverOrder(idQueue);
             return CreateResponse(null);
         }
+        [HttpPost]
+        [Route("PreparationTime")]
+        public Task<ObjectResult> PreparationTime(int idQueue, double minutes)
+        {
+            _queueApplication.SetPreparationTime(idQueue, minutes);
+            return CreateResponse(null);
+        }
     }
 }

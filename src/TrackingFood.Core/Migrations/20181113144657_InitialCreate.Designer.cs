@@ -10,8 +10,8 @@ using TrackingFood.Core.Repository.Db;
 namespace TrackingFood.Core.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20181110050742_AddProductReviews")]
-    partial class AddProductReviews
+    [Migration("20181113144657_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,6 +278,8 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("AveragePreparationTime");
+
                     b.Property<double>("Distance");
 
                     b.Property<int>("IdCompanyBranch");
@@ -309,6 +311,8 @@ namespace TrackingFood.Core.Migrations
                     b.Property<int>("IdQueueHistory")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("AveragePreparationTime");
 
                     b.Property<DateTime>("DeliveryDate");
 

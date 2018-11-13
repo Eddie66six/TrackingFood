@@ -258,7 +258,9 @@ namespace TrackingFood.Core.Migrations
                     RequestDate = table.Column<DateTime>(nullable: false),
                     DeliveryDate = table.Column<DateTime>(nullable: false),
                     IdOrder = table.Column<int>(nullable: false),
-                    IdCompanyBranch = table.Column<int>(nullable: false)
+                    IdCompanyBranch = table.Column<int>(nullable: false),
+                    Distance = table.Column<double>(nullable: false),
+                    AveragePreparationTime = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -300,7 +302,8 @@ namespace TrackingFood.Core.Migrations
                     Position = table.Column<int>(nullable: true),
                     IdOrder = table.Column<int>(nullable: false),
                     IdCompanyBranch = table.Column<int>(nullable: false),
-                    Distance = table.Column<double>(nullable: false)
+                    Distance = table.Column<double>(nullable: false),
+                    AveragePreparationTime = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

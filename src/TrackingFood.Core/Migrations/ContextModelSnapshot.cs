@@ -276,6 +276,8 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("AveragePreparationTime");
+
                     b.Property<double>("Distance");
 
                     b.Property<int>("IdCompanyBranch");
@@ -307,6 +309,8 @@ namespace TrackingFood.Core.Migrations
                     b.Property<int>("IdQueueHistory")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("AveragePreparationTime");
 
                     b.Property<DateTime>("DeliveryDate");
 
