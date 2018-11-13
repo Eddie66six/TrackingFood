@@ -16,7 +16,7 @@ namespace TrackingFood.Core.Application
 
         public int? Create(CreateCompanyBranchViewModel companyBranch)
         {
-            var objCompanyBranch = new CompanyBranch(companyBranch.Name, companyBranch.IdCompany, new Address(companyBranch.City, companyBranch.Address, companyBranch.FullNumber, companyBranch.Latitude, companyBranch.Longitude));
+            var objCompanyBranch = new CompanyBranch(companyBranch.Name, companyBranch.IdCompany, companyBranch.MaxkilometersDelivery, new Address(companyBranch.City, companyBranch.Address, companyBranch.FullNumber, companyBranch.Latitude, companyBranch.Longitude));
             _companyBranchRepository.Create(objCompanyBranch);
             if (!IsError() && _companyBranchRepository.ExistCompanyNameDapper(objCompanyBranch.Name))
                 AddError("Company branch already exists");

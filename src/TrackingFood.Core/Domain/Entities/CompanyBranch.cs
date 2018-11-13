@@ -8,11 +8,12 @@ namespace TrackingFood.Core.Domain.Entities
         {
             
         }
-        public CompanyBranch(string name, int idCompany, Address address)
+        public CompanyBranch(string name, int idCompany, double? maxkilometersDelivery, Address address)
         {
             Name = name;
             IdCompany = idCompany;
             Address = address;
+            MaxkilometersDelivery = maxkilometersDelivery;
             Validate();
         }
 
@@ -33,5 +34,6 @@ namespace TrackingFood.Core.Domain.Entities
         public IEnumerable<Deliveryman> CurrentDeliverymens { get; set; }
         public int IdAddress { get; set; }
         public Address Address { get; private set; }
+        public double? MaxkilometersDelivery { get; private set; }
     }
 }

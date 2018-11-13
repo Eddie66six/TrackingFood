@@ -41,6 +41,12 @@ namespace TrackingFood.Core.Domain.Entities
         {
             return DeliveryValue + OrderItems.Sum(p => p.MenuItem.Value * p.Amount);
         }
+
+        public void SetPreparationTime(double preparationTime)
+        {
+            PreparationTime = preparationTime;
+        }
+
         public int IdOrder { get; set; }
         public List<OrderItem> OrderItems { get; private set; }
         public decimal DeliveryValue { get; private set; }
@@ -52,5 +58,6 @@ namespace TrackingFood.Core.Domain.Entities
         public int IdCustomer { get; private set; }
         public Customer Customer { get; set; }
         public bool FlCanceled { get; set; }
+        public double? PreparationTime { get; set; }
     }
 }

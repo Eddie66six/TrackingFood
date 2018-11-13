@@ -10,6 +10,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Applications
         QueueViewModel[] GetBasicNotforwarded(int idCompanyBranch);
         QueueViewModel[] GetBasicforwarded(int idDeliveryman);
         void DeliverOrder(int idQueue);
-        void SetPreparationTime(int idQueue, double minutes);
+        void SetPreparationTime(PreparationTimeViewModel[] preparationTimeViewModels);
     }
 }

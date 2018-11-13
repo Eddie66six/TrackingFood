@@ -10,5 +10,6 @@
         public string AddressDescription { get; set; }
         public string FullNumber { get; set; }
         public string Distance { get; set; }
+        public double? DeliveryTime { get; set; }
     }
 }

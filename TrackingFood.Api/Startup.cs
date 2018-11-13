@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using TrackingFood.Core.Application;
 using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Interfaces.Applications;
+using TrackingFood.Core.Domain.Interfaces.ExternalService;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
+using TrackingFood.Core.ExternalService;
 using TrackingFood.Core.Repository;
 using TrackingFood.Core.Repository.Db;
 
@@ -53,6 +55,9 @@ namespace TrackingFood.Api
             services.AddScoped<IDeliverymanRepository, DeliverymanRepository>();
             services.AddScoped<IQueueHistoryRepository, QueueHistoryRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddScoped<IPushNotificationInternalService, PushNotificationInternalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -48,9 +48,9 @@ namespace TrackingFood.Api.Controllers
         }
         [HttpPost]
         [Route("PreparationTime")]
-        public Task<ObjectResult> PreparationTime(int idQueue, double minutes)
+        public Task<ObjectResult> PreparationTime([FromBody]PreparationTimeViewModel[] preparationTimeViewModels)
         {
-            _queueApplication.SetPreparationTime(idQueue, minutes);
+            _queueApplication.SetPreparationTime(preparationTimeViewModels);
             return CreateResponse(null);
         }
     }

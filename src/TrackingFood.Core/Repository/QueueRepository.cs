@@ -16,9 +16,16 @@ namespace TrackingFood.Core.Repository
         {
         }
 
-        public Queue[] Get(int[] ids)
+        public Queue[] Get(int[] ids, string[] includes = null)
         {
-            return _context.Queues.Where(p => ids.Contains(p.IdQueue)).ToArray();
+            var query = _context.Queues.Where(p => ids.Contains(p.IdQueue));
+            if (includes == null)
+                return query.ToArray();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.ToArray();
         }
 
         public QueueViewModel[] GetBasicNotforwardedDapper(int idCompanyBranch)
@@ -37,7 +44,7 @@ namespace TrackingFood.Core.Repository
             using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
             {
                 var date = DateTime.Now.ToString("yyyMMdd");
-                return con.Query<QueueViewModel>(@"select q.IdQueue, q.IdCompanyBranch, o.DeliveryValue, total.value as TotalValue, a.City, A.AddressDescription,a.FullNumber, q.Distance
+                return con.Query<QueueViewModel>(@"select q.IdQueue, q.IdCompanyBranch, q.DeliveryTime, o.DeliveryValue, total.value as TotalValue, a.City, A.AddressDescription,a.FullNumber, q.Distance
                         from Queues q inner join Orders o on o.IdOrder = q.IdOrder inner join DeliveryAddresses d on d.IdDeliveryAddress = q.IdDeliveryAddress inner join Addresses a on a.idAddress = d.idAddress
                         CROSS APPLY(select SUM(m.Value) as value from OrderItems oi inner join MenuItems m on m.IdMenuItens = oi.IdMenuItem where oi.IdOrder = o.idOrder) as total
                         where q.IdDeliveryman = @idDeliveryman and CONVERT(date, o.Date) = @date order by q.Position", new { idDeliveryman, date }).ToArray();

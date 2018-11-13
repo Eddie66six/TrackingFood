@@ -15,14 +15,17 @@ namespace TrackingFood.Core.Application
         private readonly IDeliverymanRepository _deliverymanRepository;
         private readonly ICompanyBranchRepository _companyBranchRepository;
         private readonly IAddressRepository _addressRepository;
+        private readonly IOrderRepository _orderRepository;
         public QueueApplication(IUnitOfWork unitOfWork, IQueueRepository queueRepository, IQueueHistoryRepository queueHistoryRepository,
-            IDeliverymanRepository deliverymanRepository, ICompanyBranchRepository companyBranchRepository, IAddressRepository addressRepository) : base(unitOfWork)
+            IDeliverymanRepository deliverymanRepository, ICompanyBranchRepository companyBranchRepository, IAddressRepository addressRepository,
+            IOrderRepository orderRepository) : base(unitOfWork)
         {
             _queueRepository = queueRepository;
             _queueHistoryRepository = queueHistoryRepository;
             _deliverymanRepository = deliverymanRepository;
             _companyBranchRepository = companyBranchRepository;
             _addressRepository = addressRepository;
+            _orderRepository = orderRepository;
         }
 
         public int? Create(CreateOrderViewModel order)
@@ -90,20 +93,18 @@ namespace TrackingFood.Core.Application
             }
 
             var objQueues = _queueRepository.Get(forwardToDeDeliveryman.Items.Select(p => p.IdQueue).ToArray());
-            foreach (var item in objQueues)
+            var acumulateTime = 0.0;
+            foreach (var item in forwardToDeDeliveryman.Items.OrderBy(p=> p.Position))
             {
-                item.Forward(forwardToDeDeliveryman.IdDeliveryman, forwardToDeDeliveryman.Items.First(p => p.IdQueue == item.IdQueue).Position);
+                var queue = objQueues.First(p => p.IdQueue == item.IdQueue);
+                acumulateTime += (queue.Distance * 0.8) + queue.DeliveryTime.GetValueOrDefault(0);
+                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, acumulateTime);
+                //TODO prepare push notification
             }
 
-            var objCompanyBranch = _companyBranchRepository.Get(forwardToDeDeliveryman.IdCompanyBranch);
-            if (objCompanyBranch == null)
-            {
-                AddError("Company branch not found");
-                return;
+            if(Commit())
+            { //TODO Push notification
             }
-            //calculate distance
-
-            Commit();
         }
 
         public QueueViewModel[] GetBasicforwarded(int idDeliveryman)
@@ -116,16 +117,23 @@ namespace TrackingFood.Core.Application
             return _queueRepository.GetBasicNotforwardedDapper(idCompanyBranch);
         }
 
-        public void SetPreparationTime(int idQueue, double minutes)
+        public void SetPreparationTime(PreparationTimeViewModel[] preparationTimeViewModels)
         {
-            var objQueue = _queueRepository.Get(idQueue);
-            if (objQueue == null)
+            var orders = _orderRepository.Get(preparationTimeViewModels.Select(p => p.IdOrder).ToArray());
+            if(orders == null)
             {
-                AddError("Queue not found");
+                AddError("Order not found");
                 return;
             }
-            objQueue.SetPreparationTime(minutes);
-            Commit();
+            foreach (var order in orders)
+            {
+                order.SetPreparationTime(preparationTimeViewModels.First(p => p.IdOrder == order.IdOrder).Minutes);
+                //TODO prepare push notification
+            }
+
+            if (Commit())
+            { //TODO Push notification
+            }
         }
     }
 }

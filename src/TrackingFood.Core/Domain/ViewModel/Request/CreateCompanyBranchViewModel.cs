@@ -4,6 +4,7 @@
     {
         public string Name { get; set; }
         public int IdCompany { get; set; }
+        public double? MaxkilometersDelivery { get; set; }
         //address
         public string City { get; set; }
         public string Address { get; set; }
