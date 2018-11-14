@@ -99,12 +99,11 @@ namespace TrackingFood.Core.Application
                 AddError("Order not found");
                 return;
             }
-            var acumulateTime = 0.0;
+
             foreach (var item in forwardToDeDeliveryman.Items.OrderBy(p=> p.Position))
             {
                 var queue = objQueues.First(p => p.IdQueue == item.IdQueue);
-                acumulateTime += queue.CalcDeliveryTime();
-                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, acumulateTime);
+                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, queue.CalcDeliveryTime());
                 //TODO prepare push notification
             }
 

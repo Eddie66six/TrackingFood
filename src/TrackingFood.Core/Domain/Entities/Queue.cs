@@ -29,7 +29,7 @@
 
         public double CalcDeliveryTime()
         {
-            return Distance * 0.6;
+            return (Distance * 0.6) + Position.GetValueOrDefault(1);
         }
 
         public int IdQueue { get; set; }
