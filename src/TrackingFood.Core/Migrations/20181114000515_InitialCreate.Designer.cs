@@ -10,7 +10,7 @@ using TrackingFood.Core.Repository.Db;
 namespace TrackingFood.Core.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20181113144657_InitialCreate")]
+    [Migration("20181114000515_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,8 @@ namespace TrackingFood.Core.Migrations
                     b.Property<int>("IdAddress");
 
                     b.Property<int>("IdCompany");
+
+                    b.Property<double?>("MaxkilometersDelivery");
 
                     b.Property<string>("Name")
                         .HasMaxLength(200);
@@ -242,6 +244,8 @@ namespace TrackingFood.Core.Migrations
 
                     b.Property<int>("IdCustomer");
 
+                    b.Property<double?>("PreparationTime");
+
                     b.HasKey("IdOrder");
 
                     b.HasIndex("IdCompanyBranch");
@@ -278,7 +282,7 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("AveragePreparationTime");
+                    b.Property<double?>("DeliveryTime");
 
                     b.Property<double>("Distance");
 
@@ -312,9 +316,9 @@ namespace TrackingFood.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("AveragePreparationTime");
-
                     b.Property<DateTime>("DeliveryDate");
+
+                    b.Property<double>("DeliveryTime");
 
                     b.Property<double>("Distance");
 

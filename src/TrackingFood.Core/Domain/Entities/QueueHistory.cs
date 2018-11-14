@@ -14,11 +14,11 @@ namespace TrackingFood.Core.Domain.Entities
             IdDeliveryman = queue.IdDeliveryman.GetValueOrDefault();
             IdDeliveryAddress = queue.IdDeliveryAddress;
             RequestDate = queue.Order.Date;
-            DeliveryDate = DateTime.Now;
+            DeliveryDate = DateTime.UtcNow;
             IdOrder = queue.IdOrder;
             IdCompanyBranch = queue.IdCompanyBranch;
             Distance = queue.Distance;
-            DeliveryTime = queue.DeliveryTime;
+            DeliveryTime = queue.DeliveryTime.GetValueOrDefault(0);
             Validate();
         }
         protected override void Validate()

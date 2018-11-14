@@ -1,4 +1,5 @@
-﻿using TrackingFood.Core.Domain;
+﻿using System;
+using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
@@ -93,11 +94,16 @@ namespace TrackingFood.Core.Application
             }
 
             var objQueues = _queueRepository.Get(forwardToDeDeliveryman.Items.Select(p => p.IdQueue).ToArray());
+            if (objQueues.Length < forwardToDeDeliveryman.Items.Count)
+            {
+                AddError("Order not found");
+                return;
+            }
             var acumulateTime = 0.0;
             foreach (var item in forwardToDeDeliveryman.Items.OrderBy(p=> p.Position))
             {
                 var queue = objQueues.First(p => p.IdQueue == item.IdQueue);
-                acumulateTime += (queue.Distance * 0.8) + queue.DeliveryTime.GetValueOrDefault(0);
+                acumulateTime += queue.CalcDeliveryTime();
                 queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, acumulateTime);
                 //TODO prepare push notification
             }

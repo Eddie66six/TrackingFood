@@ -25,7 +25,7 @@ namespace TrackingFood.Core.Domain.Entities
             DeliveryValue = deliveryValue;
             CompanyBranch = companyBranch;
             IdCustomer = idCustomer;
-            Date = DateTime.Now;
+            Date = DateTime.UtcNow;
             Validate();
         }
         protected override void Validate()

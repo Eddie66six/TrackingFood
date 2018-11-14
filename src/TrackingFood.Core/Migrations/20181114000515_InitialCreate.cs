@@ -60,7 +60,8 @@ namespace TrackingFood.Core.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 200, nullable: true),
                     IdCompany = table.Column<int>(nullable: false),
-                    IdAddress = table.Column<int>(nullable: false)
+                    IdAddress = table.Column<int>(nullable: false),
+                    MaxkilometersDelivery = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,7 +205,8 @@ namespace TrackingFood.Core.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     IdCompanyBranch = table.Column<int>(nullable: false),
                     IdCustomer = table.Column<int>(nullable: false),
-                    FlCanceled = table.Column<bool>(nullable: false)
+                    FlCanceled = table.Column<bool>(nullable: false),
+                    PreparationTime = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -260,7 +262,7 @@ namespace TrackingFood.Core.Migrations
                     IdOrder = table.Column<int>(nullable: false),
                     IdCompanyBranch = table.Column<int>(nullable: false),
                     Distance = table.Column<double>(nullable: false),
-                    AveragePreparationTime = table.Column<double>(nullable: false)
+                    DeliveryTime = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,7 +305,7 @@ namespace TrackingFood.Core.Migrations
                     IdOrder = table.Column<int>(nullable: false),
                     IdCompanyBranch = table.Column<int>(nullable: false),
                     Distance = table.Column<double>(nullable: false),
-                    AveragePreparationTime = table.Column<double>(nullable: false)
+                    DeliveryTime = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -27,6 +27,11 @@
             Position = position;
         }
 
+        public double CalcDeliveryTime()
+        {
+            return Distance * 0.6;
+        }
+
         public int IdQueue { get; set; }
         public int IdDeliveryAddress { get; set; }
         public DeliveryAddress DeliveryAddress { get; set; }
