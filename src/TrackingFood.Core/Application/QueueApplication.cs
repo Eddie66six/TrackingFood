@@ -93,17 +93,19 @@ namespace TrackingFood.Core.Application
                 return;
             }
 
-            var objQueues = _queueRepository.Get(forwardToDeDeliveryman.Items.Select(p => p.IdQueue).ToArray());
+            var objQueues = _queueRepository.Get(forwardToDeDeliveryman.Items.Select(p => p.IdQueue).ToArray(), new []{ "DeliveryAddress.Address" });
             if (objQueues.Length < forwardToDeDeliveryman.Items.Count)
             {
                 AddError("Order not found");
                 return;
             }
 
+            Address currentAddress = null;
             foreach (var item in forwardToDeDeliveryman.Items.OrderBy(p=> p.Position))
             {
                 var queue = objQueues.First(p => p.IdQueue == item.IdQueue);
-                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, queue.CalcDeliveryTime());
+                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, currentAddress?.CalculateDistence(queue.DeliveryAddress.Address.Latitude, queue.DeliveryAddress.Address.Longitude) ?? queue.CalcDeliveryTime());
+                currentAddress = queue.DeliveryAddress.Address;
                 //TODO prepare push notification
             }
 
