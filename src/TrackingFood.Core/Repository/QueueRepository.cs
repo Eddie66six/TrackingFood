@@ -35,7 +35,7 @@ namespace TrackingFood.Core.Repository
                 return con.Query<QueueViewModel>(@"select q.IdQueue, q.IdCompanyBranch, o.DeliveryValue, total.value as TotalValue, a.City,a.AddressDescription,a.FullNumber, q.Distance
                         from Queues q inner join Orders o on o.IdOrder = q.IdOrder inner join DeliveryAddresses d on d.IdDeliveryAddress = q.IdDeliveryAddress inner join Addresses a on a.idAddress = d.idAddress
                         CROSS APPLY(select SUM(m.Value) as value from OrderItems oi inner join MenuItems m on m.IdMenuItens = oi.IdMenuItem where oi.IdOrder = o.idOrder) as total
-                        where q.IdDeliveryman is null and q.IdCompanyBranch = @idCompanyBranch", new { idCompanyBranch }).ToArray();
+                        where q.IdDeliveryman is null and q.IdCompanyBranch = @idCompanyBranch order by q.Distance", new { idCompanyBranch }).ToArray();
             }
         }
         public QueueViewModel[] GetBasicforwardedDapper(int idDeliveryman)
