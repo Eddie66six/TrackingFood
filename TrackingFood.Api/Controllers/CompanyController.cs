@@ -29,5 +29,11 @@ namespace TrackingFood.Api.Controllers
         {
             return CreateResponse(_companyBranchApplication.Create(createCompanyBranchViewModel));
         }
+        [HttpGet]
+        [Route("Search/Name")]
+        public Task<ObjectResult> SearchForName(string strSearch)
+        {
+            return CreateResponse(_companyBranchApplication.SearchForName(strSearch));
+        }
     }
 }

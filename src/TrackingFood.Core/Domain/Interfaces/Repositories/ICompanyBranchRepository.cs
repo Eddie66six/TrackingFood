@@ -1,4 +1,5 @@
 ﻿using TrackingFood.Core.Domain.Entities;
+using TrackingFood.Core.Domain.ViewModel;
 
 namespace TrackingFood.Core.Domain.Interfaces.Repositories
 {
@@ -6,5 +7,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Repositories
     {
         CompanyBranch Get(int id, string[] includes = null);
         bool ExistCompanyNameDapper(string name);
+        SearchCompanyBranchViewModel[] SearchForName(string strSearch);
     }
 }

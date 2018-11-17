@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Repository.Db;
@@ -21,10 +20,7 @@ namespace TrackingFood.Core.Repository
             var query = _context.Queues.Where(p => ids.Contains(p.IdQueue));
             if (includes == null)
                 return query.ToArray();
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
             return query.ToArray();
         }
 
@@ -54,10 +50,7 @@ namespace TrackingFood.Core.Repository
             var query = _context.Queues.Where(p => p.IdQueue == id);
             if(includes == null)
                 return query.FirstOrDefault();
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
             return query.FirstOrDefault();
         }
     }

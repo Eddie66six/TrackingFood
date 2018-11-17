@@ -2,6 +2,7 @@
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
+using TrackingFood.Core.Domain.ViewModel;
 using TrackingFood.Core.Domain.ViewModel.Request;
 
 namespace TrackingFood.Core.Application
@@ -24,6 +25,11 @@ namespace TrackingFood.Core.Application
             if (Commit())
                 return objCompanyBranch.IdCompany;
             return null;
+        }
+
+        public SearchCompanyBranchViewModel[] SearchForName(string strSearch)
+        {
+            return _companyBranchRepository.SearchForName(strSearch);
         }
     }
 }
