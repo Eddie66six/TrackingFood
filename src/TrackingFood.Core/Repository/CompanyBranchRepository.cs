@@ -36,7 +36,7 @@ namespace TrackingFood.Core.Repository
         {
             using (var con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
             {
-                return con.Query<SearchCompanyBranchViewModel>(@"select cb.IdCompanyBranch, cb.Name, a.Latitude, a.Longitude from CompanyBranches cb inner join Addresses a on a.IdAddress = cb.IdAddress
+                return con.Query<SearchCompanyBranchViewModel>(@"select cb.IdCompanyBranch, cb.Name as NameCompanyBranch, a.Latitude, a.Longitude from CompanyBranches cb inner join Addresses a on a.IdAddress = cb.IdAddress
                     where cb.Name like '%' + @strSearch + '%'", new { strSearch }).ToArray();
             }
         }

@@ -29,7 +29,10 @@ namespace TrackingFood.Core.Application
 
         public SearchCompanyBranchViewModel[] SearchForName(string strSearch)
         {
-            return _companyBranchRepository.SearchForName(strSearch);
+            if(!string.IsNullOrEmpty(strSearch))
+                return _companyBranchRepository.SearchForName(strSearch);
+            AddError("Required company name");
+            return null;
         }
     }
 }

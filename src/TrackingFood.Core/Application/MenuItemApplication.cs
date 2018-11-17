@@ -3,6 +3,7 @@ using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Entities;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
+using TrackingFood.Core.Domain.ViewModel;
 using TrackingFood.Core.Domain.ViewModel.Request;
 
 namespace TrackingFood.Core.Application
@@ -34,6 +35,14 @@ namespace TrackingFood.Core.Application
             _menuItemRepository.CreateRange(itens);
 
             Commit();
+        }
+
+        public SearchMenuItemViewModel[] SearchForNameOrValue(string strSearch, decimal? inicialValue = null, decimal? finalValue = null)
+        {
+            if (!string.IsNullOrEmpty(strSearch) || inicialValue != null)
+                return _menuItemRepository.SearchForNameOrValue(strSearch, inicialValue, finalValue);
+            AddError("Required item name/description or inicialValue/finalValue");
+            return null;
         }
     }
 }
