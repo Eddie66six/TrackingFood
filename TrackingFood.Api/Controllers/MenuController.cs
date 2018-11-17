@@ -37,9 +37,9 @@ namespace TrackingFood.Api.Controllers
         }
         [HttpGet]
         [Route("Item/Search")]
-        public Task<ObjectResult> SearchForNameOrValue(string strSearch, decimal? inicialValue = null, decimal? finalValue = null)
+        public Task<ObjectResult> SearchForNameOrValue(double latitude, double longitude, string strSearch, decimal? inicialValue = null, decimal? finalValue = null)
         {
-            return CreateResponse(_menuItemApplication.SearchForNameOrValue(strSearch, inicialValue, finalValue));
+            return CreateResponse(_menuItemApplication.SearchForNameOrValue(latitude, longitude, strSearch, inicialValue, finalValue));
         }
     }
 

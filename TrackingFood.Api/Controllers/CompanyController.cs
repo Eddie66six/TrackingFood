@@ -31,9 +31,9 @@ namespace TrackingFood.Api.Controllers
         }
         [HttpGet]
         [Route("Search/Name")]
-        public Task<ObjectResult> SearchForName(string strSearch)
+        public Task<ObjectResult> SearchForName(double latitude, double longitude, string strSearch)
         {
-            return CreateResponse(_companyBranchApplication.SearchForName(strSearch));
+            return CreateResponse(_companyBranchApplication.SearchForName(latitude, longitude, strSearch));
         }
     }
 }

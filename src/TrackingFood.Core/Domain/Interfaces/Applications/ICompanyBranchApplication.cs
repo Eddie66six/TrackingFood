@@ -6,6 +6,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Applications
     public interface ICompanyBranchApplication : IBaseApplication
     {
         int? Create(CreateCompanyBranchViewModel companyBranch);
-        SearchCompanyBranchViewModel[] SearchForName(string strSearch);
+        SearchCompanyBranchViewModel[] SearchForName(double latitude, double longitude, string strSearch);
     }
 }

@@ -6,6 +6,6 @@ namespace TrackingFood.Core.Domain.Interfaces.Applications
     public interface IMenuItemApplication : IBaseApplication
     {
         void Create(CreateMenuItemsViewModel menuItem);
-        SearchMenuItemViewModel[] SearchForNameOrValue(string strSearch, decimal? inicialValue = null, decimal? finalValue = null);
+        SearchMenuItemViewModel[] SearchForNameOrValue(double latitude, double longitude,string strSearch, decimal? inicialValue = null, decimal? finalValue = null);
     }
 }

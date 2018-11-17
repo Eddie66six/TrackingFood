@@ -36,25 +36,6 @@ namespace TrackingFood.Core.Domain.Entities
                 AddError("Invalid Address");
         }
 
-        public double CalculateDistence(double latitude, double longitude)
-        {
-            var R = 6371.0;          // R is earth radius.
-            var dLat = ToRadian(latitude - Latitude);
-            var dLon = ToRadian(longitude - Longitude);
-
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(ToRadian(Latitude)) * Math.Cos(ToRadian(latitude)) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-
-            var c = 2 * Math.Asin(Math.Min(1, Math.Sqrt(a)));
-            var d = R * c;
-
-            return d;
-        }
-
-        private double ToRadian(double val)
-        {
-            return (Math.PI / 180) * val;
-        }
-
         public int IdAddress { get; set; }
         public string City { get; private set; }
         public string AddressDescription { get; private set; }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Entities;
+using TrackingFood.Core.Domain.Helpers;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Domain.ViewModel;
@@ -37,12 +38,21 @@ namespace TrackingFood.Core.Application
             Commit();
         }
 
-        public SearchMenuItemViewModel[] SearchForNameOrValue(string strSearch, decimal? inicialValue = null, decimal? finalValue = null)
+        public SearchMenuItemViewModel[] SearchForNameOrValue(double latitude, double longitude, string strSearch, decimal? inicialValue = null, decimal? finalValue = null)
         {
-            if (!string.IsNullOrEmpty(strSearch) || inicialValue != null)
-                return _menuItemRepository.SearchForNameOrValue(strSearch, inicialValue, finalValue);
-            AddError("Required item name/description or inicialValue/finalValue");
-            return null;
+            if (string.IsNullOrEmpty(strSearch) && inicialValue != null)
+            {
+                AddError("Required item name/description or inicialValue/finalValue");
+                return null;
+            }
+
+            var searches = _menuItemRepository.SearchForNameOrValue(strSearch, inicialValue, finalValue);
+            var util = new Util();
+            foreach (var search in searches)
+            {
+                search.Distance = util.CalculateDistence(search.Latitude, search.Longitude, latitude, longitude);
+            }
+            return searches;
         }
     }
 }

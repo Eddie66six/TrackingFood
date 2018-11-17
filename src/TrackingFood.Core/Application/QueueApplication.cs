@@ -5,6 +5,7 @@ using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Domain.ViewModel.Request;
 using System.Linq;
+using TrackingFood.Core.Domain.Helpers;
 using TrackingFood.Core.Domain.ViewModel;
 
 namespace TrackingFood.Core.Application
@@ -51,7 +52,9 @@ namespace TrackingFood.Core.Application
                 return null;
             }
 
-            var objQueue = new Queue(order.IdDeliveryAddress, objOrder, objOrder.IdCompanyBranch, objCompanyBranchAddress.CalculateDistence(objDeliveryAddress.Latitude, objDeliveryAddress.Longitude));
+            var util = new Util();
+            var objQueue = new Queue(order.IdDeliveryAddress, objOrder, objOrder.IdCompanyBranch,
+                    util.CalculateDistence(objCompanyBranchAddress.Latitude, objCompanyBranchAddress.Longitude ,objDeliveryAddress.Latitude, objDeliveryAddress.Longitude));
             
             _queueRepository.Create(objQueue);
             if (Commit())
@@ -101,10 +104,12 @@ namespace TrackingFood.Core.Application
             }
 
             Address currentAddress = null;
+            var util = new Util();
             foreach (var item in forwardToDeDeliveryman.Items.OrderBy(p=> p.Position))
             {
                 var queue = objQueues.First(p => p.IdQueue == item.IdQueue);
-                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position, currentAddress?.CalculateDistence(queue.DeliveryAddress.Address.Latitude, queue.DeliveryAddress.Address.Longitude) ?? queue.CalcDeliveryTime());
+                queue.Forward(forwardToDeDeliveryman.IdDeliveryman, item.Position,
+                    currentAddress != null ? util.CalculateDistence(currentAddress.Latitude, currentAddress.Longitude, queue.DeliveryAddress.Address.Latitude, queue.DeliveryAddress.Address.Longitude) : queue.CalcDeliveryTime());
                 currentAddress = queue.DeliveryAddress.Address;
                 //TODO prepare push notification
             }

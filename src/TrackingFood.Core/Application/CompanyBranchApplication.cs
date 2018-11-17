@@ -1,5 +1,6 @@
 ﻿using TrackingFood.Core.Domain;
 using TrackingFood.Core.Domain.Entities;
+using TrackingFood.Core.Domain.Helpers;
 using TrackingFood.Core.Domain.Interfaces.Applications;
 using TrackingFood.Core.Domain.Interfaces.Repositories;
 using TrackingFood.Core.Domain.ViewModel;
@@ -27,12 +28,21 @@ namespace TrackingFood.Core.Application
             return null;
         }
 
-        public SearchCompanyBranchViewModel[] SearchForName(string strSearch)
+        public SearchCompanyBranchViewModel[] SearchForName(double latitude, double longitude, string strSearch)
         {
-            if(!string.IsNullOrEmpty(strSearch))
-                return _companyBranchRepository.SearchForName(strSearch);
-            AddError("Required company name");
-            return null;
+            if (string.IsNullOrEmpty(strSearch))
+            {
+                AddError("Required company name");
+                return null;
+            }
+
+            var searches = _companyBranchRepository.SearchForName(strSearch);
+            var util = new Util();
+            foreach (var search in searches)
+            {
+                search.Distance = util.CalculateDistence(search.Latitude, search.Longitude, latitude, longitude);
+            }
+            return searches;
         }
     }
 }
